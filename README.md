@@ -1,5 +1,6 @@
 # randlot
-This repository is lotto compute project.
+
+This repositries is make randomic numbers program for Lotto of korea (6/45)
 
 ## Version
 
@@ -7,7 +8,7 @@ This repository is lotto compute project.
 
 ## 설명
 
-본 프로그램은 인터넷에 연결된 상태로 작동 되므로 "동행로또(https://dhlottery.co.kr/)" 사이트에서 직접 데이타를 받아 번호를 연산 (고/저, 홀짝,소수 분석,미출현 번호)및 추출 합니다.
+본 프로그램은 인터넷에 연결된 상태로 작동 되므로 "동행로또(https://dhlottery.co.kr/)" 사이트에서 직접 데이타를 받아 번호를 연산 (고/저, 홀짝,소수 분석,미출현 번호,2진수 분석,양력,음력분석) 하여 추천 미지수 번호를 추출 합니다.
 
 ## 지원 운영체제
 
