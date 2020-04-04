@@ -1,0 +1,99 @@
+#!/usr/bin/env bash
+
+# COSMOS Project.2015 https://cosmosproject2015.tistory.com/ cosmosproject15@gmail.com
+
+if [[ -s y ]]; then
+	cat /dev/null > y
+
+fi
+
+if [[ -s /tmp/randlot_data.html ]]; then
+	rm /tmp/randlot_data.html
+fi
+
+if [[ -s data.xlsx ]]; then
+	rm data.xlsx
+fi
+
+Version=0.1-7
+
+if [[ ! "$1" ]] || [[ $1 = "--help" ]] || [[ $1 = "-h" ]]; then
+	echo "randlot $Version
+usage:
+
+	./start [이전 회차] [데이타 적용 범위 회차] [출력 수(default 10)] [사전 조합 생성 개수(default 31459)] [half(default Nonhalf)] [양력+음력]
+
+
+example:
+
+	1)	./start 867 850 100 50000 half 04040312
+
+		867 에서 850 회차 까지 분석 , 양력:4월4일, 음력:3월 12일 도입 후 반자동 출력
+
+
+	2)	./start 867 850 100 50000 0 04040312
+
+	867 에서 850 회차 까지 분석 , 양력:4월4일, 음력:3월 12일 도입 후 반자동 비출력
+
+	3)	./start 867 850
+
+	4)	./start 867
+
+Report bugs to cosmosproject15@gmail.com
+"
+	exit 0
+fi
+
+
+if [[ $1 = "-v"  ]] || [[ $1 = "--version" ]] || [[ $1 = "-V" ]]; then
+	echo "randlot $Version"
+	exit 0
+fi
+nnum=$1
+if [[ ! "$2" ]]; then
+	comb2=`echo "$nnum - 1"|bc`
+	echo "두번째 파라미터 값을 지정하지 않아 -100으로 자동 계산 됩니다. = $comb2"
+	bnum=$comb2
+else
+	bnum=$2
+
+fi
+
+
+if [[ ! "$3" ]]; then
+	amount=10
+else
+	amount=$3
+
+fi
+
+if [[ ! "$4" ]]; then
+	avera=31459
+else
+	avera=$4
+
+fi
+
+if [[ "$5" == "half" ]]; then
+	half="1"
+else
+	half="0"
+
+fi
+
+
+if [[ ! "$6" ]]; then
+	time=0
+else
+	time=$6
+fi
+
+
+
+wget -q -O  /tmp/randlot_data.html   "https://dhlottery.co.kr/gameResult.do?method=allWinExel&gubun=byWin&nowPage=&drwNoStart=$bnum&drwNoEnd=$nnum"
+
+ssconvert /tmp/randlot_data.html /tmp/randlot_data.xlsx
+
+python3 dataproc.py $nnum $bnum $amount $avera $half $time
+
+exit 0
