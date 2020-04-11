@@ -21,7 +21,6 @@ amount=int(sys.argv[3])
 avera=int(sys.argv[4])
 half=int(sys.argv[5])
 date=str(sys.argv[6])
-test=str(sys.argv[7])
 snum=nnum-bnum
 value=1
 
@@ -438,35 +437,27 @@ def rc1(lists):
 	global A
 	A = [p1, p2, p3, p4, p5, p]
 	A.sort()
-	return A
 
 AO=[]
 AN=0
 
-rcs=[]
-for i in range(avera):
-	
-	rc=rc1(a)
-	rcs.append(rc)
 
-random.shuffle(rcs)
+def make_lists():
+	global sellotlist
+	sellotlist=[]
+	b=a
+	for lo in range(avera):
+		rc1(b)
+		for i in range(6):
+			num=A[i]
+			sellotlist.append(num)
 
-answer_list=[]
+
 for i in range(amount):
-	sel=random.randint(0,len(rcs))
-	answer=rcs[sel]
-	answer_list.append(answer)
-	print(answer)
+	make_lists()
+	random.shuffle(sellotlist)
 
-if test == "test":
-	
-
-	nowlist=set(nowlist)
-	for i in range(len(rcs)):
-		nline=rcs[i]
-		nline=set(nline)
-		chk=nowlist&nline
-		if len(chk) > 3:
-			print(i, nline, chk, len(chk))
+	rc1(sellotlist)
+	print(A)
 
 

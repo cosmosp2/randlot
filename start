@@ -15,6 +15,8 @@ if [[ -s data.xlsx ]]; then
 	rm data.xlsx
 fi
 
+
+
 Version=0.1-7
 
 if [[ ! "$1" ]] || [[ $1 = "--help" ]] || [[ $1 = "-h" ]]; then
@@ -42,6 +44,11 @@ example:
 Report bugs to cosmosproject15@gmail.com
 "
 	exit 0
+fi
+
+
+if [[ -s pr_lists ]]; then
+	rm pr_lists
 fi
 
 
@@ -88,12 +95,20 @@ else
 	time=$6
 fi
 
+if [[ ! "$7" ]]; then
+	test=0
+else
+	test=test
+fi
+
+
+
 
 
 wget -q -O  /tmp/randlot_data.html   "https://dhlottery.co.kr/gameResult.do?method=allWinExel&gubun=byWin&nowPage=&drwNoStart=$bnum&drwNoEnd=$nnum"
 
 ssconvert /tmp/randlot_data.html /tmp/randlot_data.xlsx
 
-python3 dataproc.py $nnum $bnum $amount $avera $half $time
+python3 dataproc.py $nnum $bnum $amount $avera $half $time $test
 
 exit 0
