@@ -23,7 +23,7 @@ half=int(sys.argv[5])
 date=str(sys.argv[6])
 test=str(sys.argv[7])
 snum=nnum-bnum
-value=1
+value=2
 
 n=45
 a = [False,False] + [True]*(n-1)
