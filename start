@@ -17,20 +17,20 @@ fi
 
 
 
-Version=0.1-7
+Version=0.1-8
 
 if [[ ! "$1" ]] || [[ $1 = "--help" ]] || [[ $1 = "-h" ]]; then
 	echo "randlot $Version
 usage:
 
-	./start [이전 회차] [데이타 적용 범위 회차] [출력 수(default 10)] [사전 조합 생성 개수(default 31459)] [half(default Nonhalf)] [양력+음력]
+	./start [이전 회차] [데이타 적용 범위 회차] [출력 수(default 10)] [사전 조합 생성 개수(default 31459)] [half(default Nonhalf)] [양력+음력] [test]
 
 
 example:
 
-	1)	./start 867 850 100 50000 half 04040312
+	1)	./start 867 850 100 50000 half 04040312 test
 
-		867 에서 850 회차 까지 분석 , 양력:4월4일, 음력:3월 12일 도입 후 반자동 출력
+		867 에서 850 회차 까지 분석 , 양력:4월4일, 음력:3월 12일 도입 후 반자동 출력 , 이전 회차 테스트 출력
 
 
 	2)	./start 867 850 100 50000 0 04040312
