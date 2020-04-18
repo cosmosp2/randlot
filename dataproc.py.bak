@@ -1,23 +1,11 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
-## LICENSE : GPL 2
+## LICENSE
 # Maintainer : cosmosproject15@gmail.com
-#  This program is free software; you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation; either version 2 of the License, or
-#  (at your option) any later version.
-#  
-#  This program is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#  
-#  You should have received a copy of the GNU General Public License
-#  along with this program; if not, write to the Free Software
-#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-#  MA 02110-1301, USA.
-# 
+#  Apache License
+#  Version 2.0
+
 import random
 import re
 import sys
@@ -32,13 +20,9 @@ bnum=int(sys.argv[2])
 amount=int(sys.argv[3])
 avera=int(sys.argv[4])
 half=int(sys.argv[5])
-date=str(sys.argv[6])
-camel=str(sys.argv[7])
-test=str(sys.argv[8])
-
 
 snum=nnum-bnum
-value=2
+value=1
 
 n=45
 a = [False,False] + [True]*(n-1)
@@ -227,30 +211,6 @@ for i in range(314):
 	lists=lists+[rnum]
 
 
-# 양력 , 음력 변수를 도입
-
-if int(date) > 0:
-	print("날짜 적용이 되었습니다.")
-	print("양력 :", date[0],date[1],"월",date[2],date[3],"일")
-	print("음력 :", date[4],date[5],"월",date[6],date[7],"일")
-
-	for i in range(avera):
-		choice_from_date=random.randint(0,7)
-		if choice_from_date > 0:
-			choice_1num=date[choice_from_date]
-			choice=0
-			
-			while choice == 0:
-				choice_lot_num=random.randint(1,45)
-				choice_lot_num=choice_lot_num
-				cln_str=str(choice_lot_num)
-				for cln_str in str(choice_1num):
-					choice=choice_lot_num
-			lists=lists+[choice]
-
-
-print("출력 개수: ",amount)
-
 
 random.shuffle(lists)
 a=lists
@@ -394,76 +354,6 @@ if half == 1:
 if half == 0:
 	print("반자동을 포함하지 않습니다.")
 
-
-if int(camel) > 0:
-	print("주역 숫자를 계산 합니다. 주역숫자 :",camel)
-
-	camel=str(camel)
-
-
-
-	sik="+-*/"
-
-
-	for i in range(avera):
-		math_lenth=random.randint(1,9)
-
-
-
-		if math_lenth == 1:
-			
-			camel_math=camel[random.randint(0,3)]
-			
-			
-		if math_lenth == 2:
-			
-			camel_math=camel[random.randint(0,3)]+camel[random.randint(0,3)]
-
-
-
-		if math_lenth == 3:
-
-
-			camel_math=camel[random.randint(0,3)]+sik[random.randint(0,3)]+camel[random.randint(0,3)]
-
-		if math_lenth == 4:
-
-
-			camel_math=camel[random.randint(0,3)]+camel[random.randint(0,3)]+sik[random.randint(0,3)]+camel[random.randint(0,3)]
-
-
-
-		if math_lenth == 5:
-
-			camel_math=camel[random.randint(0,3)]+camel[random.randint(0,3)]+sik[random.randint(0,3)]+camel[random.randint(0,3)]+camel[random.randint(0,3)]
-
-
-
-		if math_lenth == 6:
-
-
-			camel_math=camel[random.randint(0,3)]+sik[random.randint(0,3)]+camel[random.randint(0,3)]+sik[random.randint(0,3)]+camel[random.randint(0,3)]
-
-		if math_lenth == 7:
-
-
-			camel_math=camel[random.randint(0,3)]+camel[random.randint(0,3)]+sik[random.randint(0,3)]+camel[random.randint(0,3)]+sik[random.randint(0,3)]+camel[random.randint(0,3)]
-
-		if math_lenth == 8:
-
-
-			camel_math=camel[random.randint(0,3)]+camel[random.randint(0,3)]+sik[random.randint(0,3)]+camel[random.randint(0,3)]+camel[random.randint(0,3)]+sik[random.randint(0,3)]+camel[random.randint(0,3)]
-
-		if math_lenth == 9:
-
-
-			camel_math=camel[random.randint(0,3)]+sik[random.randint(0,3)]+camel[random.randint(0,3)]+camel[random.randint(0,3)]+sik[random.randint(0,3)]+camel[random.randint(0,3)]
-
-		math_answer=eval(camel_math)
-		if 0 < math_answer and math_answer < 46:
-			
-			a.append(int(math_answer))
-
 random.shuffle(a)
 
 # 본격 사전 조합 생성 
@@ -520,36 +410,27 @@ def rc1(lists):
 	global A
 	A = [p1, p2, p3, p4, p5, p]
 	A.sort()
-	return A
 
 AO=[]
 AN=0
 
-rcs=[]
-for i in range(avera):
-	
-	rc=rc1(a)
-	rcs.append(rc)
 
-random.shuffle(rcs)
- 
+def make_lists():
+	global sellotlist
+	sellotlist=[]
+	b=a
+	for lo in range(avera):
+		rc1(b)
+		for i in range(6):
+			num=A[i]
+			sellotlist.append(num)
 
-answer_list=[]
+
 for i in range(amount):
-	sel=random.randint(0,len(rcs))
-	answer=rcs[sel]
-	answer_list.append(answer)
-	print(answer)
+	make_lists()
+	random.shuffle(sellotlist)
 
-if test == "test":
-	
-
-	nowlist=set(nowlist)
-	for i in range(len(rcs)):
-		nline=rcs[i]
-		nline=set(nline)
-		chk=nowlist&nline
-		if len(chk) > 3:
-			print(i, nline, chk, len(chk))
+	rc1(sellotlist)
+	print(A)
 
 
