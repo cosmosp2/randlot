@@ -464,6 +464,12 @@ if int(camel) > 0:
 			
 			a.append(int(math_answer))
 
+if half != 1:
+	
+	while 0 in a:
+		a.remove(0) 
+
+
 random.shuffle(a)
 
 # 본격 사전 조합 생성 
