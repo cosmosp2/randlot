@@ -4,7 +4,7 @@ This repositries is make randomic numbers program for Lotto of korea (6/45)
 
 ## Version
 
-0.1-8
+0.1-9
 
 ## 설명
 
@@ -29,7 +29,7 @@ python3, python3-openpyxl, gnumeric
 	
 ## 업데이트 사항 
 
-	1. 테스트 기능 도입
+	1. 주역숫자 계산 도입
 
 ## 우분투 이거나 apt-get 사용의 경우 의존성 설치
 
@@ -37,11 +37,11 @@ python3, python3-openpyxl, gnumeric
 
 ## 사용 방법
 
-	./start [이전 회차] [데이타 적용 범위 회차] [출력 수(default 10)] [사전 조합 생성 개수(default 31459)] [반자동 출력 유무] [양력,음력날짜] [테스트 여부]
+	./start [이전 회차] [데이타 적용 범위 회차] [출력 수(default 10)] [사전 조합 생성 개수(default 31459)] [반자동 출력 유무] [양력,음력날짜] [주역숫자 네자리] [테스트 여부]
 
 ## 예제
 
-	./start 867 850 100 50000 half 04040312
+	./start 867 850 100 50000 half 04040312 3458 test
 
 	./start 867 850
 
