@@ -558,4 +558,63 @@ if test == "test":
 		if len(chk) > 3:
 			print(i, nline, chk, len(chk))
 
+r1=[]
+r2=[]
+r3=[]
+r4=[]
+r5=[]
+r6=[]
+for i in range(len(rcs)):
+
+	rline=rcs[i]
+	r1.append(rline[0])
+	r2.append(rline[1])
+	r3.append(rline[2])
+	r4.append(rline[3])
+	r5.append(rline[4])
+	r6.append(rline[5])
+
+r1d={}
+r2d={}
+r3d={}
+r4d={}
+r5d={}
+r6d={}
+for i in range(45):
+
+	ai=i+1
+	r1a=r1.count(ai)
+	r1d[ai]=r1a
+	r2a=r2.count(ai)
+	r2d[ai]=r2a
+	r3a=r3.count(ai)
+	r3d[ai]=r3a
+	r4a=r4.count(ai)
+	r4d[ai]=r4a
+	r5a=r5.count(ai)
+	r5d[ai]=r5a
+	r6a=r6.count(ai)
+	r6d[ai]=r6a
+
+r1d=sorted(r1d.items(), key=operator.itemgetter(1), reverse=True )
+r2d=sorted(r2d.items(), key=operator.itemgetter(1), reverse=True )
+r3d=sorted(r3d.items(), key=operator.itemgetter(1), reverse=True )	
+r4d=sorted(r4d.items(), key=operator.itemgetter(1), reverse=True )
+r5d=sorted(r5d.items(), key=operator.itemgetter(1), reverse=True )
+r6d=sorted(r6d.items(), key=operator.itemgetter(1), reverse=True )
+
+print("구간별 최고의 번호")
+print(r1d[0])
+print(r2d[0])
+print(r3d[0])
+print(r4d[0])
+print(r5d[0])
+print(r6d[0])
+
+
+
+
+
+
+
 
