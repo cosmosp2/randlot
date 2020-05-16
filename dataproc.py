@@ -18,6 +18,8 @@
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
 # 
+
+
 import random
 import re
 import sys
@@ -619,8 +621,9 @@ for i in range(3):
 
 def make_mlist():
 	mlist=[random.choice(first),random.choice(second),random.choice(third),random.choice(fourth),random.choice(five),random.choice(six) ]
+	mlist.sort()
 	chk_mlist=list(set(mlist))
-	if len(chk_mlist) != 6 :
+	if len(chk_mlist) > 6 :
 		make_mlist()
 	return mlist
 
@@ -721,7 +724,6 @@ rcsd_rds=rcsdi0_list
 print("출현 횟수 순위")
 print(rcsd_rds)
 
-
 print("기초 출현 횟수 순위")
 
 rcsd={}
@@ -774,7 +776,8 @@ for i in range(amount):
 	if test =="test":
 		test_rc=set(after_list) & set(rc)
 		print(rc, test_rc, len(test_rc))
-	
-	print(rc)
+	if test != "test":
+		
+		print(rc)
 	
 

@@ -42,7 +42,7 @@ if [[ -s /tmp/randlot_after_data.xlsx ]]; then
 fi
 
 
-Version=0.1-11
+Version=0.1-12
 
 if [[ $1 = "--help" ]] || [[ $1 = "-h" ]]; then
 	echo "randlot $Version
@@ -284,9 +284,13 @@ if [[ -r $1 ]]; then
 	echo "반자동 여부 : $half"
 	test=`grep "테스트" option.conf |awk '{print $2}'`
 	echo "테스트 여부 : $test"
+	
+	if [[ $test == "test" ]]; then
+		after_num=`echo "$nnum + 1" |bc`
+		wget -q -O  /tmp/randlot_after_data.html   "https://dhlottery.co.kr/gameResult.do?method=allWinExel&gubun=byWin&nowPage=&drwNoStart=$bnum&drwNoEnd=$after_num"
+		ssconvert /tmp/randlot_after_data.html /tmp/randlot_after_data.xlsx
+	fi
 fi
-
-
 
 wget -q -O  /tmp/randlot_data.html   "https://dhlottery.co.kr/gameResult.do?method=allWinExel&gubun=byWin&nowPage=&drwNoStart=$bnum&drwNoEnd=$nnum"
 
