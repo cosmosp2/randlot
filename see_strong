@@ -4,7 +4,7 @@ if [[ ! -d  /tmp/randlot ]]; then
   mkdir /tmp/randlot
 fi
 
-wget -q -O /tmp/randlot/ca11  "https://dhlottery.co.kr/common.do?method=main"
+wget -q -O /tmp/randlot/ca11  "https://dhlottery.co.kr/common.do?method=main&mainMode=default"
 cat /tmp/randlot/ca11 |grep -a '< drwNo' |head -1 |sed 's/[^0-9]//g' > /tmp/randlot/strong
 cat /tmp/randlot/strong
 exit 0

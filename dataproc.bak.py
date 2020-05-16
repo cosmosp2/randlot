@@ -233,6 +233,7 @@ for i in range(snum):
 			else:
 				z=z+1
 			if h > 3  :
+				print("이전회차는 홀수가 더 많았습니다.")
 				for i in range(45):
 					sel=1+i
 					if sel%2 == 1:
@@ -240,24 +241,29 @@ for i in range(snum):
 					else:
 						add(sel)
 			if z > 3:
+				print("이전회차는 짝수가 더 많았습니다.")
 				for i in range(45):
 					sel=1+i
 					if sel%2 == 1:
 						add(sel)
 
 
-			
+			if z == 3:
+				print("이전 회차는 홀짝이 공동 출현 했습니다.")
 			sosuc=set(nowlist) & set(primes)
-			
+			print("소수 출현 횟수 :", len(sosuc), sosuc)
 
-			
+			if len(sosuc) == 3:
+				print("소수와 비소수가 공동 출현 했습니다.")
 			if len(sosuc) > 3:
+				print("소수가 더 많이 출현 했었습니다.")
 				for i in range(45):
 					sel=1+i
 					c=primes.count(sel)
 					if c == 0:
 						add(sel)
 			if len(sosuc) < 0:
+				print("소수가 더 적게 출현 했습니다.")
 				for i in range(45):
 					sel=1+i
 					c=primes.count(sel)
@@ -266,6 +272,7 @@ for i in range(snum):
 
 			hap=data2+data3+data4+data5+data6+data7
 			if hap > 128 :
+				print("이전회차는 고저값이 높습니다.")
 				for i in range(22):
 					sel=1+i
 					for i in range(3):
@@ -273,6 +280,7 @@ for i in range(snum):
 
 
 			if hap < 128 :
+				print("이전회차는 고저값이 낮습니다.")
 				for i in range(23):
 					sel=23+i
 					for i in range(3):
@@ -283,37 +291,6 @@ for i in range(snum):
 	dnot=list(dnot)
 	dnotlist=dnotlist+dnot
 
-
-# 프린트
-
-if h > 3  :
-	print("이전회차는 홀수가 더 많았습니다.")
-
-if z > 3:
-	print("이전회차는 짝수가 더 많았습니다.")
-	
-if z == 3:
-	print("이전 회차는 홀짝이 공동 출현 했습니다.")
-
-print("소수 출현 횟수 :", len(sosuc), sosuc)
-
-if len(sosuc) == 3:
-	print("소수와 비소수가 공동 출현 했습니다.")
-
-
-if len(sosuc) > 3:
-	print("소수가 더 많이 출현 했었습니다.")
-	
-	
-if len(sosuc) < 0:
-	print("소수가 더 적게 출현 했습니다.")
-	
-	
-if hap > 128 :
-	print("이전회차는 고저값이 높습니다.")
-	
-if hap < 128 :
-	print("이전회차는 고저값이 낮습니다.")
 # 미출현 번호 결과 연산
 	
 for i in range(3):
@@ -764,17 +741,10 @@ for i in range(amount):
 	while len(chk_rc) < 5:  
 		rc=random.choice(rcs)
 		chk_rc=set(rcsd_rds) & set(rc)
-		
-	if half == 1:
-		for i in range(3):
-			sel=random.choice(rc)
-			rc.remove(sel)
-			rc.append(0)
-			
+	
 	if test =="test":
 		test_rc=set(after_list) & set(rc)
 		print(rc, test_rc, len(test_rc))
 	
-	print(rc)
 	
 

@@ -4,7 +4,7 @@ This repositries is make randomic numbers program for Lotto of korea (6/45)
 
 ## Version
 
-0.1-9
+0.1-11
 
 ## 설명
 
@@ -34,6 +34,7 @@ python3, python3-openpyxl, gnumeric
 ## 우분투 이거나 apt-get 사용의 경우 의존성 설치
 
 	sudo apt-get install python3 python3-openpyxl gnumeric
+	python3-korean_lunar_calendar
 
 ## 사용 방법
 

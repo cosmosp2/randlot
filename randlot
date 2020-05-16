@@ -1,0 +1,297 @@
+#!/usr/bin/env bash
+
+# COSMOS Project.2015 https://cosmosproject2015.tistory.com/ 
+# cosmosproject15@gmail.com
+
+## LICENSE : GPL 2
+# Maintainer : cosmosproject15@gmail.com
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#  
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#  
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#  MA 02110-1301, USA.
+
+if [[ -s y ]]; then
+	cat /dev/null > y
+
+fi
+
+if [[ -s /tmp/randlot_data.html ]]; then
+	rm /tmp/randlot_data.html
+fi
+
+if [[ -s data.xlsx ]]; then
+	rm data.xlsx
+fi
+
+if [[ -s /tmp/randlot_after_data.html ]]; then
+	rm /tmp/randlot_after_data.html
+fi
+
+if [[ -s /tmp/randlot_after_data.xlsx ]]; then
+	rm /tmp/randlot_after_data.xlsx
+fi
+
+
+Version=0.1-11
+
+if [[ $1 = "--help" ]] || [[ $1 = "-h" ]]; then
+	echo "randlot $Version
+usage:
+
+1.	./start 
+
+2.	./start option.conf
+
+Report bugs to cosmosproject15@gmail.com
+"
+	exit 0
+fi
+
+
+if [[ -s pr_lists ]]; then
+	rm pr_lists
+fi
+
+
+if [[ $1 = "-v"  ]] || [[ $1 = "--version" ]] || [[ $1 = "-V" ]]; then
+	echo "randlot $Version"
+	exit 0
+fi
+
+
+
+
+strong=`bash see_strong`
+
+
+echo "최근 6/45 로또의 진행 회차는 $strong 입니다."
+
+if [[ ! -r $1 ]]; then
+	chknnum() {
+	read -p "적용할 상위 회차를 지정하여 주십시오. (아무 입력이 없다면 자동으로 최근 회차를 적용 합니다.)
+" nnum
+
+	if [[ "$nnum" ]]; then
+		if [[ ! $nnum -le $strong ]]; then
+			echo "다시 입력하여 주십시오."
+			chknnum
+		fi 
+		if [[ $nnum -le $strong ]]; then
+			nnum=$nnum
+		fi
+	fi
+
+
+
+	if [[ ! "$nnum" ]]; then
+		echo "아무것도 입력 하지 않았음으로 $strong 회차가 적용 상위 회차로 지정 합니다."
+		nnum=$strong
+	fi
+
+	}
+	chknnum
+
+	echo "상위 적용 회차: $nnum"
+
+	bnumchk() {
+	read -p "하위 적용 회차를 입력하여 주십시오. (아무 입력이 없으면 상위 회차로 부터 -50 회차로 적용 합니다.)
+" bnum
+	if [[ "$bnum" ]]; then
+		if [[ ! $bnum -gt 0 ]]; then
+			echo "다시 입력하여 주십시오."
+			bnumchk
+		fi 
+		if [[ $bnum -gt 0 ]]; then
+			bnum=$bnum
+		fi
+	fi
+
+
+
+	if [[ ! "$bnum" ]]; then
+		echo "아무것도 입력 하지 않았음으로 상위 회차에서 -50 차이로 자동 지정 합니다."
+		bnum=`echo "$nnum - 50 " |bc`
+	fi
+	}
+
+	bnumchk
+	echo "하위 적용 회차 : $bnum"
+
+	amountchk() {
+	read -p "추출 개수를 지정하여 주십시오.
+" amount
+	if [[ "$amount" ]]; then
+		if [[ ! $amount -gt 0 ]]; then
+			echo "다시 입력하여 주십시오."
+			amountchk
+		fi 
+		if [[ $amount -gt 0 ]]; then
+			amount=$amount
+		fi
+	fi
+
+
+
+	if [[ ! "$amount" ]]; then
+		echo "아무것도 입력 하지 않았음으로 자동으로 10개 추출로 지정 합니다."
+		amount=10
+	fi
+	}
+	amountchk
+	echo "추출개수 : $amount"
+
+	averachk() {
+	read -p "연산 횟수를 지정 하여 주십시오 (기본 :30500번)
+" avera
+	if [[ "$avera" ]]; then
+		if [[ ! $avera -gt 10000 ]]; then
+			echo "다시 입력하여 주십시오."
+			averachk
+		fi 
+		if [[ $avera -gt 10000 ]]; then
+			avera=$avera
+		fi
+	fi
+
+
+
+	if [[ ! "$avera" ]]; then
+		echo "아무것도 입력 하지 않았음으로 자동으로 30500번 으로 지정 합니다."
+		avera=30500
+	fi
+	}
+	averachk
+	echo "연산 횟수 : $avera"
+
+	if [[ "$5" == "half" ]]; then
+		half="1"
+	else
+		half="0"
+
+	fi
+
+
+	today=`date +%Y%m%d `
+	timechk() {
+	read -p "양력/음력을 입력하여 주십시오.예 (05020410)
+지정 하지 않으면 오늘 날짜로 양력과 음력이 자동 적용 됩니다.
+당일 날짜는 `date` 입니다. 
+" time
+	if [[ "$time" ]]; then
+		
+		time=$time
+	fi
+
+
+
+	if [[ ! "$time" ]]; then
+		echo "아무것도 입력 하지 않았음으로 오늘 날짜로 양력과 음력이 자동 적용 됩니다."
+		today=`python3 cal.py $today`
+		time=$today
+	fi
+	}
+	timechk
+	echo "적용 날수 : $time"
+
+	camelchk() {
+	read -p "주역 숫자 네자리를 입력 하여 주십시오. (입력 하지 않으면 생략 합니다.)
+" camel
+	if [[ "$camel" ]]; then
+		if [[ ! $camel -gt 0101 ]]; then
+			echo "다시 입력하여 주십시오."
+			camelchk
+		fi 
+		if [[ $camel -gt 0101 ]]; then
+			camel=$camel
+			echo "적용 날수 : $camel"
+		fi
+	fi
+
+
+
+	if [[ ! "$camel" ]]; then
+		echo "아무것도 입력 하지 않았음으로 주역 도입을 생략 합니다."
+		camel=0
+
+	fi
+	}
+	camelchk
+
+
+	read -p "반자동 (0값 포함) 을 적용 하시겠습니까? [y/*]
+" dohalf
+
+	if [[ $dohalf == "y" ]]; then
+		half="1"
+		echo "반자동을 적용 합니다."
+
+	fi
+
+	if [[ ! $dohalf == "y" ]]; then
+		half=0
+		echo "반자동을 적용 하지 않습니다."
+	fi
+
+	test="notest"
+
+	if [[ ! $nnum == $strong ]]; then
+		read -p "테스트 하시겠습니까? [y/*]
+" dotest
+
+		if [[ $dotest == "y" ]]; then
+			test="test"
+			after_num=`echo "$nnum + 1" |bc`
+			wget -q -O  /tmp/randlot_after_data.html   "https://dhlottery.co.kr/gameResult.do?method=allWinExel&gubun=byWin&nowPage=&drwNoStart=$bnum&drwNoEnd=$after_num"
+			ssconvert /tmp/randlot_after_data.html /tmp/randlot_after_data.xlsx
+
+		fi
+
+		if [[ ! $dotest == "y" ]]; then
+			test="notest"
+			echo "테스트를 진행 하지 않습니다."
+		fi
+
+	fi
+fi
+
+
+if [[ -r $1 ]]; then
+
+	echo "옵션 파일일 확인 되었습니다."
+	nnum=`grep "적용범위상위회차" option.conf |awk '{print $2}'`
+	echo "상위 회차: $nnum"
+	bnum=`grep "적용범위하위회차" option.conf |awk '{print $2}'`
+	echo "하위 회차: $bnum"
+	amount=`grep "결과추출개수" option.conf |awk '{print $2}'`
+	echo "추출 개수: $amount"
+	avera=`grep "연산회수" option.conf |awk '{print $2}'`
+	echo "연산 횟수: $avera"
+	time=` grep "추첨날짜" option.conf |awk '{print $2}'`
+	echo "날짜 적용: $time"
+	camel=`grep "주역숫자" option.conf |awk '{print $2}'`
+	echo "주역 숫자: $camel"
+	half=`grep "반자동" option.conf |awk '{print $2}'`
+	echo "반자동 여부 : $half"
+	test=`grep "테스트" option.conf |awk '{print $2}'`
+	echo "테스트 여부 : $test"
+fi
+
+
+
+wget -q -O  /tmp/randlot_data.html   "https://dhlottery.co.kr/gameResult.do?method=allWinExel&gubun=byWin&nowPage=&drwNoStart=$bnum&drwNoEnd=$nnum"
+
+ssconvert /tmp/randlot_data.html /tmp/randlot_data.xlsx
+
+python3 dataproc.py $nnum $bnum $amount $avera $half $time $camel $test
+
+exit 0
