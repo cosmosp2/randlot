@@ -42,7 +42,7 @@ if [[ -s /tmp/randlot_after_data.xlsx ]]; then
 fi
 
 
-Version=0.1-12
+Version=0.1-13
 
 if [[ $1 = "--help" ]] || [[ $1 = "-h" ]]; then
 	echo "randlot $Version

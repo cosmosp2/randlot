@@ -566,7 +566,8 @@ if int(camel) > 0:
 			
 			add(int(math_answer))
 
-
+else:
+	print("주역숫자를 포함하지 않습니다.")
 
 # 제외수 
 
@@ -620,10 +621,40 @@ for i in range(3):
 # 본격 사전 조합 생성 
 
 def make_mlist():
-	mlist=[random.choice(first),random.choice(second),random.choice(third),random.choice(fourth),random.choice(five),random.choice(six) ]
+	mlist=[]
+	mlist.append(random.choice(first))
+	
+	sec=random.choice(second)
+	while sec in mlist:
+		sec=random.choice(second)
+	mlist.append(sec)
+	
+	thi=random.choice(third)
+	while thi in mlist:
+		thi=random.choice(third)
+	mlist.append(thi)	
+	
+	
+	four=random.choice(fourth)
+	while four in mlist:
+		four=random.choice(fourth)
+	mlist.append(four)
+	
+	fiv=random.choice(five)
+	while fiv in mlist:
+		fiv=random.choice(five)
+	mlist.append(fiv)
+	
+	
+	si=random.choice(six)
+	while si in mlist:
+		si=random.choice(six)
+	mlist.append(si)
+	
+	
 	mlist.sort()
 	chk_mlist=list(set(mlist))
-	if len(chk_mlist) > 6 :
+	if len(chk_mlist) != 6 :
 		make_mlist()
 	return mlist
 
@@ -757,16 +788,21 @@ if test == "test":
 print("공통 수 를 토대로 리스트를 추출 합니다.")
 
 # 리스트 재작성
-
+rcs2=[]
+for i in range(avera):
+	
+	mlist2=make_mlist()
+	chk_rc=set(rcsd_rds) & set(mlist2)
+	while len(chk_rc) < 1:  
+		mlist2=make_mlist()
+		chk_rc=set(rcsd_rds) & set(mlist2)
+	rcs2.append(mlist2)
 
 for i in range(amount):
 	rc=random.choice(rcs)
 	chk_rc=set(rcsd_rds) & set(rc)
 	
-	while len(chk_rc) < 5:  
-		rc=random.choice(rcs)
-		chk_rc=set(rcsd_rds) & set(rc)
-		
+
 	if half == 1:
 		for i in range(3):
 			sel=random.choice(rc)
