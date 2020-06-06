@@ -673,7 +673,7 @@ for i in range(3):
 
 	shuffle(rcs)
  
-
+rate1=0
 if test == "test":
 	
 	after_num=nnum+1
@@ -726,9 +726,9 @@ if test == "test":
 		nline=set(nline)
 		chk=after_list&nline
 		if len(chk) > 3:
-			print(i, nline, chk, len(chk))
-
-
+			rate1=rate1+1
+	rate1=rate1/len(rcs)*100
+	print("처음 작성 확률(%):", rate1)
 
 rcss=[]
 for i in range(len(rcs)):
@@ -797,16 +797,32 @@ for i in range(avera):
 		mlist2=make_mlist()
 		chk_rc=set(rcsd_rds) & set(mlist2)
 	rcs2.append(mlist2)
-	
+
+# 재작성된 리스트 테스트
+
+rate2=0
+if test == "test":
+
+	for i in range(len(rcs2)):
+			nline=rcs2[i]
+			nline=set(nline)
+			chk=after_list&nline
+			if len(chk) > 3:
+				rate2=rate2+1
+	rate2=rate2/len(rcs2)*100
+	print("재작성 확률(%):", rate2)
+
 rcchk=0
 
 brc=random.choice(rcs)
 for i in range(amount):
 	rc=random.choice(rcs)
 	brc_chk=set(rc) & set(brc)
-	while len(brc_chk) > 0:
+	rcsd_rds_chk=set(rcsd_rds) & set(rc)
+	while len(brc_chk) > 0 and len(rcsd_rds_chk) > 1:
 		rc=random.choice(rcs)
 		brc_chk=set(rc) & set(brc)
+		rcsd_rds_chk=set(rcsd_rds) & set(rc)
 		
 	chk_rc=set(rcsd_rds) & set(rc)
 	brc=rc
