@@ -797,11 +797,19 @@ for i in range(avera):
 		mlist2=make_mlist()
 		chk_rc=set(rcsd_rds) & set(mlist2)
 	rcs2.append(mlist2)
+	
+rcchk=0
 
+brc=random.choice(rcs)
 for i in range(amount):
 	rc=random.choice(rcs)
+	brc_chk=set(rc) & set(brc)
+	while len(brc_chk) > 0:
+		rc=random.choice(rcs)
+		brc_chk=set(rc) & set(brc)
+		
 	chk_rc=set(rcsd_rds) & set(rc)
-	
+	brc=rc
 
 	if half == 1:
 		for i in range(3):
