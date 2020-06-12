@@ -42,7 +42,7 @@ if [[ -s /tmp/randlot_after_data.xlsx ]]; then
 fi
 
 
-Version=0.1-13
+Version=0.1-14
 
 if [[ $1 = "--help" ]] || [[ $1 = "-h" ]]; then
 	echo "randlot $Version
@@ -203,29 +203,7 @@ if [[ ! -r $1 ]]; then
 	timechk
 	echo "적용 날수 : $time"
 
-	camelchk() {
-	read -p "주역 숫자 네자리를 입력 하여 주십시오. (입력 하지 않으면 생략 합니다.)
-" camel
-	if [[ "$camel" ]]; then
-		if [[ ! $camel -gt 0101 ]]; then
-			echo "다시 입력하여 주십시오."
-			camelchk
-		fi 
-		if [[ $camel -gt 0101 ]]; then
-			camel=$camel
-			echo "적용 날수 : $camel"
-		fi
-	fi
-
-
-
-	if [[ ! "$camel" ]]; then
-		echo "아무것도 입력 하지 않았음으로 주역 도입을 생략 합니다."
-		camel=0
-
-	fi
-	}
-	camelchk
+	camel=0
 
 
 	read -p "반자동 (0값 포함) 을 적용 하시겠습니까? [y/*]
@@ -278,13 +256,12 @@ if [[ -r $1 ]]; then
 	echo "연산 횟수: $avera"
 	time=` grep "추첨날짜" option.conf |awk '{print $2}'`
 	echo "날짜 적용: $time"
-	camel=`grep "주역숫자" option.conf |awk '{print $2}'`
-	echo "주역 숫자: $camel"
+
 	half=`grep "반자동" option.conf |awk '{print $2}'`
 	echo "반자동 여부 : $half"
 	test=`grep "테스트" option.conf |awk '{print $2}'`
 	echo "테스트 여부 : $test"
-	
+	camel=0
 	if [[ $test == "test" ]]; then
 		after_num=`echo "$nnum + 1" |bc`
 		wget -q -O  /tmp/randlot_after_data.html   "https://dhlottery.co.kr/gameResult.do?method=allWinExel&gubun=byWin&nowPage=&drwNoStart=$bnum&drwNoEnd=$after_num"

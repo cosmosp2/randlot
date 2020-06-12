@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
+# COSMOS Project.2015 https://cosmosproject2015.tistory.com/ 
+# cosmosproject15@gmail.com
+
 ## LICENSE : GPL 2
 # Maintainer : cosmosproject15@gmail.com
 #  This program is free software; you can redistribute it and/or modify
@@ -17,8 +20,6 @@
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
-# 
-
 
 import random
 import re
@@ -358,7 +359,7 @@ print("출력 개수: ",amount)
 # 2진수 조합 생성 
 
 
-for i in range(135):
+for i in range(90):
 	sc1=[0,0,1]
 	sc2=[1,1,0]
 	num1 = data2
@@ -497,77 +498,7 @@ if half == 0:
 	print("반자동을 포함하지 않습니다.")
 
 
-if int(camel) > 0:
-	print("주역 숫자를 계산 합니다. 주역 숫자 :",camel)
 
-	camel=str(camel)
-
-
-
-	sik="+-*"
-
-
-	for i in range(90):
-		math_lenth=random.randint(1,9)
-
-
-
-		if math_lenth == 1:
-			
-			camel_math=camel[random.randint(0,3)]
-			
-			
-		if math_lenth == 2:
-			
-			camel_math=camel[random.randint(0,3)]+camel[random.randint(0,3)]
-
-
-
-		if math_lenth == 3:
-
-
-			camel_math=camel[random.randint(0,3)]+sik[random.randint(0,2)]+camel[random.randint(0,3)]
-
-		if math_lenth == 4:
-
-
-			camel_math=camel[random.randint(0,3)]+camel[random.randint(0,3)]+sik[random.randint(0,2)]+camel[random.randint(0,3)]
-
-
-
-		if math_lenth == 5:
-
-			camel_math=camel[random.randint(0,3)]+camel[random.randint(0,3)]+sik[random.randint(0,2)]+camel[random.randint(0,3)]+camel[random.randint(0,3)]
-
-
-
-		if math_lenth == 6:
-
-
-			camel_math=camel[random.randint(0,3)]+sik[random.randint(0,2)]+camel[random.randint(0,3)]+sik[random.randint(0,2)]+camel[random.randint(0,3)]
-
-		if math_lenth == 7:
-
-
-			camel_math=camel[random.randint(0,3)]+camel[random.randint(0,3)]+sik[random.randint(0,2)]+camel[random.randint(0,3)]+sik[random.randint(0,2)]+camel[random.randint(0,3)]
-
-		if math_lenth == 8:
-
-
-			camel_math=camel[random.randint(0,3)]+camel[random.randint(0,3)]+sik[random.randint(0,2)]+camel[random.randint(0,3)]+camel[random.randint(0,3)]+sik[random.randint(0,2)]+camel[random.randint(0,3)]
-
-		if math_lenth == 9:
-
-
-			camel_math=camel[random.randint(0,3)]+sik[random.randint(0,2)]+camel[random.randint(0,3)]+camel[random.randint(0,3)]+sik[random.randint(0,2)]+camel[random.randint(0,3)]
-
-		math_answer=eval(camel_math)
-		if 0 < int(math_answer) and int(math_answer) < 46:
-			
-			add(int(math_answer))
-
-else:
-	print("주역숫자를 포함하지 않습니다.")
 
 # 제외수 
 
