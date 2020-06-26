@@ -724,7 +724,7 @@ for i in range(avera):
 	
 	mlist2=make_mlist()
 	chk_rc=set(rcsd_rds) & set(mlist2)
-	while len(chk_rc) < 1:  
+	while len(chk_rc) == 0:  
 		mlist2=make_mlist()
 		chk_rc=set(rcsd_rds) & set(mlist2)
 	rcs2.append(mlist2)
