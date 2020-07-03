@@ -183,7 +183,15 @@ for i in range(snum):
 	datasel7="S"+str(a)
 	data=load_ws[datasel7].value
 	data7=int(data)
+	
 	nowlist=[data2]+[data3]+[data4]+[data5]+[data6]+[data7]
+	
+	for i in range(5):
+		ia=i+1
+		nn=nowlist[ia]
+		for i in range(2):
+			
+			add(nn)
 
 	if a ==4:
 		print("이전 회차 : ", data1,"의 당첨번호는 ",nowlist,"입니다.")
@@ -317,16 +325,19 @@ if hap > 128 :
 	
 if hap < 128 :
 	print("이전회차는 고저값이 낮습니다.")
+	
 # 미출현 번호 결과 연산
 	
-for i in range(3):
-	
-
-	for i in range(45):
-		ai=1+i
-		dnot_count=dnotlist.count(ai)*value
+dnot_dict={}
+for i in range(45):
+	ai=1+i
+	dnot_count=dnotlist.count(ai)
+	dnot_dict[ai]=dnot_count
+	for i in range(2):
 		for i in range(dnot_count):
 			add(ai)
+
+print("미출현 번호 목록\n",dnot_dict)
 
 
 
@@ -355,137 +366,6 @@ if int(date) > 0:
 
 print("출력 개수: ",amount)
 
-
-# 2진수 조합 생성 
-
-
-for i in range(90):
-	sc1=[0,0,1]
-	sc2=[1,1,0]
-	num1 = data2
-	num2 = data3
-	num3 = data4
-	num4 = data5
-	num5 = data6
-	num6 = data7
-	def num_com(a):
-		global s1; global s2; global s3; global s4; global s5; global s6
-		if a >= 32:
-			a = a-32
-			s1=sc1
-		else:
-			s1=sc2
-		if a >= 16:
-			a = a-16
-			s2=sc1
-		else:
-			s2=sc2
-		
-		if a >= 8:
-			a = a-8
-			s3=sc1
-		else:
-			s3=sc2
-		
-		if a >= 4:
-			a = a-4
-			s4=sc1
-		else:
-			s4=sc2
-		if a >= 2:
-			a = a-2
-			s5=sc1
-		else:
-			s5=sc2
-
-		if a >= 1:
-			a = a-1
-			s6=sc1
-		else:
-			s6=sc2
-
-
-	def ans_make():
-		global ansp
-		a1=random.choice(s1)*32
-		a2=random.choice(s2)*16
-		a3=random.choice(s3)*8
-		a4=random.choice(s4)*4
-		a5=random.choice(s5)*2
-		a6=random.choice(s6)*1
-		ansp = a1+a2+a3+a4+a5+a6
-		if ansp > 45:
-			ans_make()
-		if ansp == 0:
-			ans_make()
-
-	num_com(num1)
-	ans_make()
-	ans1=ansp
-
-	ans1=[ans1]
-	ans1=random.choice(ans1)
-	def ans2_make():
-		global ans2
-		num_com(num2)
-		ans_make()
-		if ans1 == ansp:
-			ans2_make()
-		ans2 = ansp
-		ans2=[ans2]
-		ans2=random.choice(ans2)
-	ans2_make()
-
-	def ans3_make():
-		global ans3
-		num_com(num3)
-		ans_make()
-		if ans1 == ansp or ans2 == ansp:
-			ans2_make()
-		ans3=ansp
-		ans3=[ans3]
-		ans3=random.choice(ans3)
-	ans3_make()
-
-	def ans4_make():
-		global ans4
-		num_com(num4)
-		ans_make()
-		if ans1 == ansp or ans2 == ansp or ans3 == ansp:
-			ans4_make()
-		ans4=ansp
-		ans4=[ans4]
-		ans4=random.choice(ans4)
-	ans4_make()
-
-	def ans5_make():
-		global ans5
-		num_com(num5)
-		ans_make()
-		if ans1 == ansp or ans2 == ansp or ans3 == ansp or ans4 == ansp:
-			ans5_make()
-		ans5=ansp
-		ans5=[ans5]
-		ans5=random.choice(ans5)
-	ans5_make()
-
-	def ans6_make():
-		global ans6
-		num_com(num6)
-		ans_make()
-		if ans1 == ansp or ans2 == ansp or ans3 == ansp or ans4 == ansp or ans5 == ansp:
-			ans6_make()
-		ans6=ansp
-		ans6=[ans6]
-		ans6=random.choice(ans6)
-	ans6_make()
-
-	add(ans1)
-	add(ans2)
-	add(ans3)
-	add(ans4)
-	add(ans5)
-	add(ans6)
 
 print("사전 조합 개수 자동 설정... 총 ",avera,"개로 계산됨.")
 
@@ -745,13 +625,14 @@ if test == "test":
 
 rcchk=0
 
-brc=random.choice(rcs)
+rate_per=0
+brc=random.choice(rcs2)
 for i in range(amount):
-	rc=random.choice(rcs)
+	rc=random.choice(rcs2)
 	brc_chk=set(rc) & set(brc)
 	rcsd_rds_chk=set(rcsd_rds) & set(rc)
-	while len(brc_chk) > 0 and len(rcsd_rds_chk) > 1:
-		rc=random.choice(rcs)
+	while len(brc_chk) < 1 and len(brc_chk) > 1 and len(rcsd_rds_chk) < 1 and len(rcsd_rds_chk) > 3:
+		rc=random.choice(rcs2)
 		brc_chk=set(rc) & set(brc)
 		rcsd_rds_chk=set(rcsd_rds) & set(rc)
 		
@@ -766,9 +647,13 @@ for i in range(amount):
 			
 	if test =="test":
 		test_rc=set(after_list) & set(rc)
+		if len(test_rc) > 2:
+			rated=len(test_rc)*0.25
+			rate_per=rate_per+rated
 		print(rc, test_rc, len(test_rc))
 	if test != "test":
 		
 		print(rc)
-	
-
+if test =="test":
+	rate_per=rate_per/amount*100
+	print("총 당첨 확률 :",rate_per,"%")
