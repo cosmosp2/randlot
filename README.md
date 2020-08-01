@@ -4,7 +4,7 @@ This Repositries is make randomic numbers program for Lotto of korea (6/45)
 
 ## Version
 
-0.1-15
+0.1-16
 
 ## 설명
 
@@ -20,7 +20,7 @@ all
 
 ## 의존성 패키지
 
-python3, fonts-nanum, python3-openpyxl, gnumeric, python3-korean_lunar_calendar, python3-pandas
+python3, fonts-nanum, python3-openpyxl, gnumeric, python3-korean_lunar_calendar, python3-pandas, language-pack-ko
 
 ## 설치 (Install)
 
@@ -29,12 +29,13 @@ python3, fonts-nanum, python3-openpyxl, gnumeric, python3-korean_lunar_calendar,
 	
 ## 업데이트 사항 
 
-1. 이진수 분석 삭제
-2. 확률 계산 균형과 이전 출현 번호 확률 증가 
+1. 미출현번호 내림차순 설정
+2. 번호 연산 순위 내림차순 설정
+3. 중점적인 연산 문제 수정 
 
 ## 우분투 이거나 apt-get 사용의 경우 의존성 설치
 
-	sudo apt-get install python3 python3-openpyxl gnumeric python3-pandas fonts-nanum
+	sudo apt-get install language-pack-ko python3 python3-openpyxl gnumeric python3-pandas fonts-nanum
 
 ## 파이썬 라이브러리 설치
 

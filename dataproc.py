@@ -45,7 +45,6 @@ test=str(sys.argv[8])
 snum=nnum-bnum
 value=2
 
-
 load_wb = load_workbook("/tmp/randlot_data.xlsx", data_only=True)
 sheet=load_wb.active
 sheet.title = "1"
@@ -69,32 +68,32 @@ for i in range(2,n+1):
 		for j in range(2*i, n+1, i):
 			a[j] = False
 
-
 # 기초 난수 설계  
 	
 def make_nums(cnum):
 	list_name=[]
-			
-	for i in range(45):
-		ai=i+1
-		for i in range(3):
-			
-			list_name.append(ai)
-		if ai < cnum:
-			chai=cnum-ai
-			chai=40-chai
-			for i in range(chai):
-				list_name.append(ai)
+	for i in range(2):
+		
+		for i in range(45):
+			ai=i+1
+			for i in range(3):
 				
-		if ai > cnum:
-			chai=ai-cnum
-			chai=40-chai
-			for i in range(chai):
 				list_name.append(ai)
+			if ai < cnum:
+				chai=cnum-ai
+				chai=40-chai
+				for i in range(chai):
+					list_name.append(ai)
+					
+			if ai > cnum:
+				chai=ai-cnum
+				chai=40-chai
+				for i in range(chai):
+					list_name.append(ai)
 
-		if ai == cnum:
-			for i in range(40):
-				list_name.append(ai)
+			if ai == cnum:
+				for i in range(40):
+					list_name.append(ai)
 	return list_name
 
 
@@ -132,7 +131,7 @@ for i in range(3):
 # 추가 적용 함수 
 
 def add(num):
-	for i in range(3):
+	for i in range(2):
 		
 		first.append(num)
 		second.append(num)
@@ -151,7 +150,16 @@ def dels(num):
 	five.remove(num)
 	six.remove(num)
 	
-dnotlist=[]
+dnotlist=olist
+dnot_dict={}
+
+# 미출현 dict 작성 
+for i in range(45):
+	ai=i+1
+	dnot_dict[ai]=0
+	
+	
+
 for i in range(snum):
 	a=4+i
 	datasel1="B"+str(a)
@@ -192,10 +200,11 @@ for i in range(snum):
 		for i in range(2):
 			
 			add(nn)
-
+	
 	if a ==4:
-		print("이전 회차 : ", data1,"의 당첨번호는 ",nowlist,"입니다.")
-
+		first_list=nowlist
+		print("이전 회차 : ", data1,"의 당첨번호는 ",first_list,"입니다.")
+		
 
 
 
@@ -289,12 +298,18 @@ for i in range(snum):
 					for i in range(3):
 						add(sel)
 
-	dnot=set(olist) - set(nowlist)
+	# 연속 미출현 번호 연산
 
-	dnot=list(dnot)
-	dnotlist=dnotlist+dnot
+	dnot=set(dnotlist) - set(nowlist)
 
-
+	dnotlist=list(dnot)
+	
+	for i in range(len(dnotlist)):
+		dnot_num=dnotlist[i]
+	
+		dnot_dict[dnot_num]=dnot_dict[dnot_num]+1
+	
+		add(dnot_num)
 # 프린트
 
 if h > 3  :
@@ -315,7 +330,6 @@ if len(sosuc) == 3:
 if len(sosuc) > 3:
 	print("소수가 더 많이 출현 했었습니다.")
 	
-	
 if len(sosuc) < 0:
 	print("소수가 더 적게 출현 했습니다.")
 	
@@ -326,20 +340,9 @@ if hap > 128 :
 if hap < 128 :
 	print("이전회차는 고저값이 낮습니다.")
 	
-# 미출현 번호 결과 연산
-	
-dnot_dict={}
-for i in range(45):
-	ai=1+i
-	dnot_count=dnotlist.count(ai)
-	dnot_dict[ai]=dnot_count
-	for i in range(2):
-		for i in range(dnot_count):
-			add(ai)
 
-print("미출현 번호 목록\n",dnot_dict)
-
-
+dnots=sorted(dnot_dict.items(), key=operator.itemgetter(1), reverse=True )
+print("미출현 번호 목록 (내림차순)\n",dnots)
 
 
 # 양력 , 음력 변수를 도입
@@ -377,57 +380,45 @@ if half == 1:
 if half == 0:
 	print("반자동을 포함하지 않습니다.")
 
-
-
-
-# 제외수 
-
-for i in range(6):
-	ai=nowlist[i]
-	chk_count=first.count(ai)*0.03
-	for i in range(int(chk_count)):
-		first.remove(ai)
 		
-	chk_count=second.count(ai)*0.03
-	for i in range(int(chk_count)):
-		second.remove(ai)
-	
-	chk_count=third.count(ai)*0.03
-	for i in range(int(chk_count)):
-		third.remove(ai)
-	
-	chk_count=fourth.count(ai)*0.03
-	for i in range(int(chk_count)):
-		fourth.remove(ai)
-	
-	chk_count=five.count(ai)*0.03
-	for i in range(int(chk_count)):
-		five.remove(ai)
-		
-	chk_count=six.count(ai)*0.03
-	for i in range(int(chk_count)):
-		six.remove(ai)
-		
-for i in range(3):
+for i in range(11):
 	shuffle(first)
 
-
-for i in range(3):
+for i in range(11):
 	shuffle(second)
 
-for i in range(3):
+for i in range(11):
 	shuffle(third)
 
-for i in range(3):
+for i in range(11):
 	shuffle(fourth)
 
 
-for i in range(3):
+for i in range(11):
 	shuffle(five)
 
 
-for i in range(3):
+for i in range(11):
 	shuffle(six)
+
+
+# 난수 순위 계산
+
+ranlists=first+second+third+fourth+five+six
+ranlists_dict={}
+for i in range(45):
+	ai=i+1
+	aic=ranlists.count(ai)
+	ranlists_dict[ai]=aic
+sort_of_ranlists_dict=sorted(ranlists_dict.items(), key=operator.itemgetter(1), reverse=True )
+
+print("연산된 난수  총 순위 (내림차순)\n",sort_of_ranlists_dict)
+
+favorit_list=[]
+for i in range(23):
+	favorit=sort_of_ranlists_dict[i]
+	favorit=favorit[0]
+	favorit_list.append(favorit)
 
 # 본격 사전 조합 생성 
 
@@ -485,6 +476,7 @@ for i in range(3):
 	shuffle(rcs)
  
 rate1=0
+
 if test == "test":
 	
 	after_num=nnum+1
@@ -492,8 +484,6 @@ if test == "test":
 	sheet=load_wb.active
 	sheet.title = "1"
 	load_ws = load_wb["1"]
-
-
 
 	for i in range(1):
 		a=4+i
@@ -532,113 +522,17 @@ if test == "test":
 			print("테스트 적용 회차: ", after_num, " 의 당첨번호는 ",after_list,"입니다.")
 
 	after_list=set(after_list)
-	for i in range(len(rcs)):
-		nline=rcs[i]
-		nline=set(nline)
-		chk=after_list&nline
-		if len(chk) > 3:
-			rate1=rate1+1
-	rate1=rate1/len(rcs)*100
-	print("처음 작성 확률(%):", rate1)
 
-rcss=[]
-for i in range(len(rcs)):
-	rcs_line=rcs[i]
-	for i in range(6):
-		
-		rcss.append(rcs_line[i])
-	
-rcsd={}
-for i in range(45):
-	ai=i+1
-	count_lotnum=rcss.count(ai)
-	rcsd[ai]=count_lotnum
-	
-rcsd=sorted(rcsd.items(), key=operator.itemgetter(1), reverse=True )
-
-
-rcsdi0_list=[]
-for i in range(23):
-	rcsdi=rcsd[i]
-	rcsdi0=rcsdi[0]
-	rcsdi0_list.append(rcsdi0)
-rcsd_rds=rcsdi0_list
-print("출현 횟수 순위")
-print(rcsd_rds)
-
-print("기초 출현 횟수 순위")
-
-rcsd={}
-for i in range(45):
-	ai=i+1
-	
-	count_lotnum=first.count(ai)+second.count(ai)+third.count(ai)+fourth.count(ai)+five.count(ai)+six.count(ai)
-	
-	rcsd[ai]=count_lotnum
-	
-rcsd=sorted(rcsd.items(), key=operator.itemgetter(1), reverse=True )
-
-
-rcsdi0_list=[]
-for i in range(23):
-	rcsdi=rcsd[i]
-	rcsdi0=rcsdi[0]
-	rcsdi0_list.append(rcsdi0)
-print(rcsdi0_list)
-
-print("공통 수들")
-rcsd_rds=set(rcsd_rds) | set(rcsdi0_list)
-print(rcsd_rds)
-
-if test == "test":
-	
-	chk_rcsd_rds=set(rcsd_rds) & set(after_list)
-	print("공통 수 테스트 확인")
-	print(chk_rcsd_rds, len(chk_rcsd_rds))
-
-print("공통 수 를 토대로 리스트를 추출 합니다.")
-
-# 리스트 재작성
-rcs2=[]
-for i in range(avera):
-	
-	mlist2=make_mlist()
-	chk_rc=set(rcsd_rds) & set(mlist2)
-	while len(chk_rc) == 0:  
-		mlist2=make_mlist()
-		chk_rc=set(rcsd_rds) & set(mlist2)
-	rcs2.append(mlist2)
-
-# 재작성된 리스트 테스트
-
-rate2=0
-if test == "test":
-
-	for i in range(len(rcs2)):
-			nline=rcs2[i]
-			nline=set(nline)
-			chk=after_list&nline
-			if len(chk) > 3:
-				rate2=rate2+1
-	rate2=rate2/len(rcs2)*100
-	print("재작성 확률(%):", rate2)
-
-rcchk=0
-
+def choice_rc():
+	rc=random.choice(rcs)
+	rc_check=set(favorit_list) & set(rc)
+	if len(rc_check) < 2:
+		choice_rc()
+	return rc
 rate_per=0
-brc=random.choice(rcs2)
 for i in range(amount):
-	rc=random.choice(rcs2)
-	brc_chk=set(rc) & set(brc)
-	rcsd_rds_chk=set(rcsd_rds) & set(rc)
-	while len(brc_chk) < 1 and len(brc_chk) > 1 and len(rcsd_rds_chk) < 1 and len(rcsd_rds_chk) > 3:
-		rc=random.choice(rcs2)
-		brc_chk=set(rc) & set(brc)
-		rcsd_rds_chk=set(rcsd_rds) & set(rc)
-		
-	chk_rc=set(rcsd_rds) & set(rc)
-	brc=rc
-
+	rc=choice_rc()
+	
 	if half == 1:
 		for i in range(3):
 			sel=random.choice(rc)
@@ -652,8 +546,16 @@ for i in range(amount):
 			rate_per=rate_per+rated
 		print(rc, test_rc, len(test_rc))
 	if test != "test":
-		
-		print(rc)
+			
+			print(rc)
 if test =="test":
+	check_top_nums=set(first_list) & set(favorit_list)
+	per_fav=len(check_top_nums)/23 *100
+	print("상위 리스트 적중 확률 :",per_fav,"%")
+	print(list(check_top_nums))
+	
+	print()
+	
 	rate_per=rate_per/amount*100
 	print("총 당첨 확률 :",rate_per,"%")
+	
