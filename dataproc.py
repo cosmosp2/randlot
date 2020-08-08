@@ -401,7 +401,6 @@ for i in range(11):
 for i in range(11):
 	shuffle(six)
 
-
 # 난수 순위 계산
 
 ranlists=first+second+third+fourth+five+six
@@ -538,8 +537,14 @@ def nrc_make(rcb):
 	nrc=random.choice(rcs)
 	nrc_chk=set(nrc) & set(rcb)
 	if len(nrc_chk) < 2:
-		nrc_make()
-		
+		nrc_make(rcb)
+
+	nrc_same_chk=list(set(nrc))
+	
+	if len(nrc_same_chk) > 6:
+		nrc_make(rcb)
+
+	return nrc
 
 def choice_rc(rcb):
 	
