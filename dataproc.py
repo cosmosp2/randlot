@@ -458,6 +458,17 @@ def make_mlist():
 	chk_mlist=list(set(mlist))
 	if len(chk_mlist) != 6 :
 		make_mlist()
+	
+	# Mmlist 에서 치환 
+	
+	choice_num=random.randint(0,5)
+	
+	mlist[choice_num]=random.choice(favorit_list)
+	
+	choice_num=random.randint(0,5)
+	
+	mlist[choice_num]=random.choice(favorit_list)
+	
 	return mlist
 
 
@@ -472,9 +483,9 @@ for i in range(avera):
 		rcss.append(ai)
 for i in range(3):
 	
-
 	shuffle(rcs)
- 
+print("avera 개수 :", len(rcs))
+
 rate1=0
 
 if test == "test":
@@ -522,16 +533,30 @@ if test == "test":
 			print("테스트 적용 회차: ", after_num, " 의 당첨번호는 ",after_list,"입니다.")
 
 	after_list=set(after_list)
+global rcb
+def nrc_make(rcb):
+	nrc=random.choice(rcs)
+	nrc_chk=set(nrc) & set(rcb)
+	if len(nrc_chk) < 2:
+		nrc_make()
+		
 
-def choice_rc():
-	rc=random.choice(rcs)
-	rc_check=set(favorit_list) & set(rc)
-	if len(rc_check) < 2:
-		choice_rc()
+def choice_rc(rcb):
+	
+	if len(rcb) == 6:
+		
+		rc=nrc_make(rcb)
+		
+	else:
+		rc=random.choice(rcs)
+
+	rcb=rc
 	return rc
 rate_per=0
+
+rcb=[0]
 for i in range(amount):
-	rc=choice_rc()
+	rc=choice_rc(rcb)
 	
 	if half == 1:
 		for i in range(3):
@@ -553,9 +578,28 @@ if test =="test":
 	per_fav=len(check_top_nums)/23 *100
 	print("상위 리스트 적중 확률 :",per_fav,"%")
 	print(list(check_top_nums))
-	
-	print()
-	
 	rate_per=rate_per/amount*100
 	print("총 당첨 확률 :",rate_per,"%")
+	a3=0
+	a4=0
+	a5=0
+	a6=0
+	for i in range(len(rcs)):
+		rcs_list=rcs[i]
+		chk_rcs_list=set(rcs_list) & set(after_list)
+		if len(chk_rcs_list) == 3:
+		
+			a3=a3+1
+		if len(chk_rcs_list) == 4:
+		
+			a4=a4+1
+		if len(chk_rcs_list) == 5:
+		
+			a5=a5+1	
+		if len(chk_rcs_list) == 6:
+		
+			a6=a6+1
+			
+	print("전체 연산된 리스트 중... 3개 적중 :",a3," 4개 적중 :",a4,"  5개 적중 :",a5," 6개 적중 :",a6)
+		
 	

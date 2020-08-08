@@ -42,7 +42,7 @@ if [[ -s /tmp/randlot_after_data.xlsx ]]; then
 fi
 
 
-Version=0.1-16
+Version=0.1-17
 
 if [[ $1 = "--help" ]] || [[ $1 = "-h" ]]; then
 	echo "randlot $Version
@@ -240,26 +240,47 @@ if [[ ! -r $1 ]]; then
 		fi
 
 	fi
+	
+	read -p "옵션 파일을 만드시겠습니까? [y/n*]
+" mkop
+
+	if [[ $mkop == "y" ]]; then
+		echo "옵션 파일을 재작성 합니다."
+		nowus=`date +%s`
+		echo "randlot 프로그램의 옵션 파일 입니다. 
+반드시 띄어쓰기를 준수하여 주십시오.
+
+적용범위상위회차: $nnum
+적용범위하위회차: $bnum
+결과추출개수: $amount
+연산회수: $avera
+추첨날짜(05090417): $time
+반자동(1/0): $half
+테스트(test/notest): $test" > option_$nowus.conf
+		echo "작성된 옵션 파일 이름은 'option_$nowus.conf' 입니다.
+"
+
+	fi
 fi
 
 
 if [[ -r $1 ]]; then
 
 	echo "옵션 파일일 확인 되었습니다."
-	nnum=`grep "적용범위상위회차" option.conf |awk '{print $2}'`
+	nnum=`grep "적용범위상위회차" $1 |awk '{print $2}'`
 	echo "상위 회차: $nnum"
-	bnum=`grep "적용범위하위회차" option.conf |awk '{print $2}'`
+	bnum=`grep "적용범위하위회차" $1 |awk '{print $2}'`
 	echo "하위 회차: $bnum"
-	amount=`grep "결과추출개수" option.conf |awk '{print $2}'`
+	amount=`grep "결과추출개수" $1 |awk '{print $2}'`
 	echo "추출 개수: $amount"
-	avera=`grep "연산회수" option.conf |awk '{print $2}'`
+	avera=`grep "연산회수" $1 |awk '{print $2}'`
 	echo "연산 횟수: $avera"
-	time=` grep "추첨날짜" option.conf |awk '{print $2}'`
+	time=` grep "추첨날짜" $1 |awk '{print $2}'`
 	echo "날짜 적용: $time"
 
-	half=`grep "반자동" option.conf |awk '{print $2}'`
+	half=`grep "반자동" $1 |awk '{print $2}'`
 	echo "반자동 여부 : $half"
-	test=`grep "테스트" option.conf |awk '{print $2}'`
+	test=`grep "테스트" $1 |awk '{print $2}'`
 	echo "테스트 여부 : $test"
 	camel=0
 	if [[ $test == "test" ]]; then
