@@ -41,6 +41,7 @@ date=str(sys.argv[6])
 camel=str(sys.argv[7])
 test=str(sys.argv[8])
 
+
 snum=nnum-bnum
 value=2
 
@@ -204,6 +205,9 @@ for i in range(snum):
 		first_list=nowlist
 		print("이전 회차 : ", data1,"의 당첨번호는 ",first_list,"입니다.")
 		
+
+
+
 # 범위 수 적용
 		def drange(arg):
 			seldata=arg-5
@@ -460,26 +464,22 @@ def make_mlist():
 	
 	mlist[choice_num]=random.choice(favorit_list)
 	
+	choice_num=random.randint(0,5)
+	
+	mlist[choice_num]=random.choice(favorit_list)
+	
 	return mlist
+
 
 rcs=[]
 rcss=[]
-bmlist=[]
 for i in range(avera):
 	numi=i
 	mlist=make_mlist()
 	rcs.append(mlist)
-	if len(bmlist) == 6:
-		addnums=set(bmlist)-set(mlist)
-		if len(addnums) > 1:
-			addnums_len=len(addnums)-1
-			addnums=list(addnums)
-			addnums_choice=random.choice(addnums)
-			choice_mlist=random.randint(0,5)
-			mlist[choice_mlist]=addnums_choice
-			
-	bmlist=mlist
-	
+	for i in range(6):
+		ai=mlist[i]
+		rcss.append(ai)
 for i in range(3):
 	
 	shuffle(rcs)
@@ -536,7 +536,7 @@ global rcb
 def nrc_make(rcb):
 	nrc=random.choice(rcs)
 	nrc_chk=set(nrc) & set(rcb)
-	if len(nrc_chk) < 1:
+	if len(nrc_chk) < 2:
 		nrc_make(rcb)
 
 	nrc_same_chk=list(set(nrc))
@@ -554,6 +554,7 @@ def choice_rc(rcb):
 		
 	else:
 		rc=random.choice(rcs)
+
 	rcb=rc
 	return rc
 rate_per=0
