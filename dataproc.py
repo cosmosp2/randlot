@@ -260,8 +260,6 @@ for i in range(snum):
 					sel=1+i
 					if sel%2 == 1:
 						add(sel)
-
-
 			
 			sosuc=set(nowlist) & set(primes)
 			
@@ -340,7 +338,6 @@ if hap < 128 :
 dnots=sorted(dnot_dict.items(), key=operator.itemgetter(1), reverse=True )
 print("미출현 번호 목록 (내림차순)\n",dnots)
 
-
 # 양력 , 음력 변수를 도입
 
 if int(date) > 0:
@@ -375,7 +372,6 @@ if half == 1:
 
 if half == 0:
 	print("반자동을 포함하지 않습니다.")
-
 		
 for i in range(11):
 	shuffle(first)
@@ -448,7 +444,6 @@ def make_mlist():
 		si=random.choice(six)
 	mlist.append(si)
 	
-	
 	mlist.sort()
 	chk_mlist=list(set(mlist))
 	if len(chk_mlist) != 6 :
@@ -459,7 +454,6 @@ def make_mlist():
 	choice_num=random.randint(0,5)
 	
 	mlist[choice_num]=random.choice(favorit_list)
-	
 	return mlist
 
 rcs=[]
@@ -468,17 +462,30 @@ bmlist=[]
 for i in range(avera):
 	numi=i
 	mlist=make_mlist()
-	rcs.append(mlist)
 	if len(bmlist) == 6:
 		addnums=set(bmlist)-set(mlist)
 		if len(addnums) > 1:
+			
 			addnums_len=len(addnums)-1
 			addnums=list(addnums)
 			addnums_choice=random.choice(addnums)
 			choice_mlist=random.randint(0,5)
 			mlist[choice_mlist]=addnums_choice
-			
+	
+	
+	len_of_mlist=len(list(set(mlist)))
+	if len_of_mlist != 6:
+		mlist=list(set(mlist))
+		selnum=random.randint(1,45)
+		
+		while selnum in mlist:
+			selnum=random.randint(1,45)
+		
+		mlist.append(selnum)
+	
+	mlist.sort()
 	bmlist=mlist
+	rcs.append(mlist)
 	
 for i in range(3):
 	
@@ -573,7 +580,7 @@ for i in range(amount):
 		if len(test_rc) > 2:
 			rated=len(test_rc)*0.25
 			rate_per=rate_per+rated
-		print(rc, test_rc, len(test_rc))
+		print(rc, test_rc, len(test_rc), )
 	if test != "test":
 			
 			print(rc)
