@@ -21,6 +21,9 @@
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
 
+
+import multiprocessing
+import time
 import random
 import re
 import sys
@@ -48,6 +51,8 @@ load_wb = load_workbook("/tmp/randlot_data.xlsx", data_only=True)
 sheet=load_wb.active
 sheet.title = "1"
 load_ws = load_wb["1"]
+
+stime=time.time()
 
 # 오리지날 리스트
 olist=[]
@@ -459,40 +464,87 @@ def make_mlist():
 rcs=[]
 rcss=[]
 bmlist=[]
-for i in range(avera):
-	numi=i
-	mlist=make_mlist()
-	if len(bmlist) == 6:
-		addnums=set(bmlist)-set(mlist)
-		if len(addnums) > 1:
-			
-			addnums_len=len(addnums)-1
-			addnums=list(addnums)
-			addnums_choice=random.choice(addnums)
-			choice_mlist=random.randint(0,5)
-			mlist[choice_mlist]=addnums_choice
-	
-	
-	len_of_mlist=len(list(set(mlist)))
-	if len_of_mlist != 6:
-		mlist=list(set(mlist))
-		selnum=random.randint(1,45)
+
+cc=os.cpu_count()
+proc_avera=int(avera/cc)
+numproc=range(0,cc)
+
+if cc > 1:
+	print("코어가",cc,"개 로 확인 되었습니다. 멀티프로세싱을 활용 하여 연산 합니다.")
+	ac=int(cc/2)
+else:
+	ac=1
+
+# 멀티 프로세싱 기반의 연산 작업 시작
+
+os.system('cat /dev/null > /tmp/randlot_averas')
+
+def proc_make(numproc):
+	bmlist=[]
+	file=open('/tmp/randlot_averas' , 'a')
+	for i in range(proc_avera):
+		numi=i
+		mlist=make_mlist()
+		if len(bmlist) == 6:
+			addnums=set(bmlist)-set(mlist)
+			if numproc > ac:
+				acp=2
+			else:
+				acp=1
+			if len(addnums) > acp:
+				addnums_len=len(addnums)-1
+				addnums=list(addnums)
+				addnums_choice=random.choice(addnums)
+				choice_mlist=random.randint(0,5)
+				mlist[choice_mlist]=addnums_choice
 		
-		while selnum in mlist:
+		
+		len_of_mlist=len(list(set(mlist)))
+		if len_of_mlist != 6:
+			mlist=list(set(mlist))
 			selnum=random.randint(1,45)
+			
+			while selnum in mlist:
+				selnum=random.randint(1,45)
+			
+			mlist.append(selnum)
 		
-		mlist.append(selnum)
-	
-	mlist.sort()
-	bmlist=mlist
-	rcs.append(mlist)
-	
-for i in range(3):
+		mlist.sort()
+		bmlist=mlist
+		data=str(mlist)
+		data=data.strip('[]')
+		file.write(data+"\n")
+	file.close()
+
+if __name__ == '__main__':
+	#멀티 쓰레딩 Pool 사용
+	pool = multiprocessing.Pool(processes=cc) # 현재 시스템에서 사용 할 프로세스 개수
+	pool.map(proc_make, numproc)
+	pool.close()
+	pool.join()
+
+with open('/tmp/randlot_averas', 'r') as f:
+	list_file = f.readlines()
+alist = [line.rstrip('\n') for line in list_file] 
+
+rcs=[]
+for i in range(len(alist)):
+	ai=alist[i]
+	dot=','
+	ai=ai.split(dot)
+	ai=list(map(int, ai))
+	rcs.append(ai)
+
+
+
+
+for i in range(cc):
 	
 	shuffle(rcs)
-print("avera 개수 :", len(rcs))
+print("실제 연산된 리스트 개수 :", len(rcs))
 
 rate1=0
+
 
 if test == "test":
 	
@@ -613,4 +665,6 @@ if test =="test":
 			
 	print("전체 연산된 리스트 중... 3개 적중 :",a3," 4개 적중 :",a4,"  5개 적중 :",a5," 6개 적중 :",a6)
 		
-	
+etime=time.time()
+proc_time=etime-stime
+print("연산에 걸린 총 시간은", proc_time , "입니다.")

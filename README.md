@@ -4,7 +4,7 @@ This Repositries is make randomic numbers program for Lotto of korea (6/45)
 
 ## Version
 
-0.1-2
+0.1-21
 
 ## 설명
 
