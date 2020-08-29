@@ -44,6 +44,8 @@ date=str(sys.argv[6])
 camel=str(sys.argv[7])
 test=str(sys.argv[8])
 
+cc=os.cpu_count()
+
 snum=nnum-bnum
 value=2
 
@@ -378,27 +380,27 @@ if half == 1:
 if half == 0:
 	print("반자동을 포함하지 않습니다.")
 		
-for i in range(11):
+for i in range(cc*2):
 	shuffle(first)
 
-for i in range(11):
+for i in range(cc*2):
 	shuffle(second)
 
-for i in range(11):
+for i in range(cc*2):
 	shuffle(third)
 
-for i in range(11):
+for i in range(cc*2):
 	shuffle(fourth)
 
 
-for i in range(11):
+for i in range(cc*2):
 	shuffle(five)
 
 
-for i in range(11):
+for i in range(cc*2):
 	shuffle(six)
 
-# 난수 순위 계산
+# 기초 확률 순위 계산
 
 ranlists=first+second+third+fourth+five+six
 ranlists_dict={}
@@ -408,7 +410,7 @@ for i in range(45):
 	ranlists_dict[ai]=aic
 sort_of_ranlists_dict=sorted(ranlists_dict.items(), key=operator.itemgetter(1), reverse=True )
 
-print("연산된 난수  총 순위 (내림차순)\n",sort_of_ranlists_dict)
+print("기초 확률 총 순위 (내림차순)\n",sort_of_ranlists_dict)
 
 favorit_list=[]
 for i in range(23):
@@ -416,61 +418,43 @@ for i in range(23):
 	favorit=favorit[0]
 	favorit_list.append(favorit)
 
+seven_list=[]
+for i in range(7):
+	seven=sort_of_ranlists_dict[i]
+	seven=seven[0]
+	seven_list.append(seven)
+
 # 본격 사전 조합 생성 
 
 def make_mlist():
 	mlist=[]
-	mlist.append(random.choice(first))
-	
-	sec=random.choice(second)
-	while sec in mlist:
-		sec=random.choice(second)
-	mlist.append(sec)
-	
-	thi=random.choice(third)
-	while thi in mlist:
-		thi=random.choice(third)
-	mlist.append(thi)	
-	
-	
-	four=random.choice(fourth)
-	while four in mlist:
-		four=random.choice(fourth)
-	mlist.append(four)
-	
-	fiv=random.choice(five)
-	while fiv in mlist:
-		fiv=random.choice(five)
-	mlist.append(fiv)
-	
-	
-	si=random.choice(six)
-	while si in mlist:
-		si=random.choice(six)
-	mlist.append(si)
-	
+	for i in range(6):
+		cnum=random.choice(favorit_list)
+		mlist.append(cnum)
+
+	for i in range(2):
+		c=random.randint(0,5)
+		mlist[c]=random.choice(seven_list)
+
 	mlist.sort()
-	chk_mlist=list(set(mlist))
-	if len(chk_mlist) != 6 :
+	chkmlist=list(set(mlist))
+	
+	if len(chkmlist) != 6:
+		
 		make_mlist()
-	
-	# Mmlist 에서 치환 
-	
-	choice_num=random.randint(0,5)
-	
-	mlist[choice_num]=random.choice(favorit_list)
+		
 	return mlist
+	
+	
 
 rcs=[]
 rcss=[]
-bmlist=[]
 
-cc=os.cpu_count()
 proc_avera=int(avera/cc)
 numproc=range(0,cc)
 
 if cc > 1:
-	print("코어가",cc,"개 로 확인 되었습니다. 멀티프로세싱을 활용 하여 연산 합니다.")
+	print("귀하의 PC의 코어가",cc,"개 로 확인 되었습니다. 멀티프로세싱을 활용 하여 연산 합니다.")
 	ac=int(cc/2)
 else:
 	ac=1
@@ -480,37 +464,13 @@ else:
 os.system('cat /dev/null > /tmp/randlot_averas')
 
 def proc_make(numproc):
-	bmlist=[]
 	file=open('/tmp/randlot_averas' , 'a')
 	for i in range(proc_avera):
 		numi=i
 		mlist=make_mlist()
-		if len(bmlist) == 6:
-			addnums=set(bmlist)-set(mlist)
-			if numproc > ac:
-				acp=2
-			else:
-				acp=1
-			if len(addnums) > acp:
-				addnums_len=len(addnums)-1
-				addnums=list(addnums)
-				addnums_choice=random.choice(addnums)
-				choice_mlist=random.randint(0,5)
-				mlist[choice_mlist]=addnums_choice
 		
-		
-		len_of_mlist=len(list(set(mlist)))
-		if len_of_mlist != 6:
-			mlist=list(set(mlist))
-			selnum=random.randint(1,45)
-			
-			while selnum in mlist:
-				selnum=random.randint(1,45)
-			
-			mlist.append(selnum)
 		
 		mlist.sort()
-		bmlist=mlist
 		data=str(mlist)
 		data=data.strip('[]')
 		file.write(data+"\n")
@@ -533,7 +493,10 @@ for i in range(len(alist)):
 	dot=','
 	ai=ai.split(dot)
 	ai=list(map(int, ai))
-	rcs.append(ai)
+	chk_ai=list(set(ai))
+	if len(chk_ai) == 6:
+		
+		rcs.append(ai)
 
 
 
@@ -542,6 +505,27 @@ for i in range(cc):
 	
 	shuffle(rcs)
 print("실제 연산된 리스트 개수 :", len(rcs))
+
+
+# 연산된 난수 총 순위
+
+ranlists=[]
+for i in range(len(rcs)):
+	ai=rcs[i]
+	for i in range(6):
+		ri=ai[i]
+		ranlists.append(ri)
+		
+
+ranlists_dict={}
+for i in range(45):
+	ai=i+1
+	aic=ranlists.count(ai)
+	ranlists_dict[ai]=aic
+sort_of_coumputed_list=sorted(ranlists_dict.items(), key=operator.itemgetter(1), reverse=True )
+
+print("연산된 난수 총 순위 (내림차순)\n",sort_of_coumputed_list)
+
 
 rate1=0
 
@@ -591,35 +575,41 @@ if test == "test":
 			print("테스트 적용 회차: ", after_num, " 의 당첨번호는 ",after_list,"입니다.")
 
 	after_list=set(after_list)
-global rcb
-def nrc_make(rcb):
-	nrc=random.choice(rcs)
-	nrc_chk=set(nrc) & set(rcb)
-	if len(nrc_chk) < 1:
-		nrc_make(rcb)
 
-	nrc_same_chk=list(set(nrc))
+# 각 연산 전 연산 후 상위 리스트 
+
+top_of_sort_of_ranlists_dict=[]
+for i in range(23):
+	li=sort_of_ranlists_dict[i]
+	top_of_sort_of_ranlists_dict.append(li)
+
+top_sort_of_coumputed_list=[]
+for i in range(7):
+	li=sort_of_coumputed_list[i]
+	top_sort_of_coumputed_list.append(li)
+
+# 연산된 리스트에서 잡아내기
+
+
+def choice_rc():
+	nrc=random.choice(rcs)
+	sevenchk=set(seven_list) & set(nrc)
 	
-	if len(nrc_same_chk) > 6:
-		nrc_make(rcb)
+	if len(sevenchk) < 2:
+		choice_rc()
+	
+	chkmlist=list(set(nrc))
+	
+	if len(chkmlist) != 6:
+		choice_rc()
+	
 
 	return nrc
-
-def choice_rc(rcb):
 	
-	if len(rcb) == 6:
-		
-		rc=nrc_make(rcb)
-		
-	else:
-		rc=random.choice(rcs)
-	rcb=rc
-	return rc
 rate_per=0
 
-rcb=[0]
 for i in range(amount):
-	rc=choice_rc(rcb)
+	rc=choice_rc()
 	
 	if half == 1:
 		for i in range(3):
@@ -637,10 +627,9 @@ for i in range(amount):
 			
 			print(rc)
 if test =="test":
-	check_top_nums=set(first_list) & set(favorit_list)
+	check_top_nums=set(after_list) & set(favorit_list)
 	per_fav=len(check_top_nums)/23 *100
 	print("상위 리스트 적중 확률 :",per_fav,"%")
-	print(list(check_top_nums))
 	rate_per=rate_per/amount*100
 	print("총 당첨 확률 :",rate_per,"%")
 	a3=0
