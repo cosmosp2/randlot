@@ -366,6 +366,7 @@ if int(date) > 0:
 					choice=choice_lot_num
 			add(choice)
 
+
 print("출력 개수: ",amount)
 
 
@@ -402,25 +403,6 @@ for i in range(cc*2):
 # 기초 확률 순위 계산
 
 ranlists=first+second+third+fourth+five+six
-
-
-with open('/tmp/randlot/nums', 'r') as f:
-	list_file = f.readlines()
-alist = [line.rstrip('\n') for line in list_file] 
-for i in range(len(alist)):
-	ai=alist[i]
-	ai=ai.split()
-	ai=list(map(int, ai))
-	ais=ai[1]/7
-	ais=int(ais)
-	for i in range(ais):
-		ranlists.append(ai[0])
-
-for i in range(2):
-	shuffle(ranlists)
-
-
-
 ranlists_dict={}
 for i in range(45):
 	ai=i+1
