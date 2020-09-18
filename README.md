@@ -20,7 +20,7 @@ all
 
 ## 의존성 패키지
 
-python3, fonts-nanum, python3-openpyxl, gnumeric, python3-korean_lunar_calendar, python3-pandas, language-pack-ko
+python3, fonts-nanum, python3-openpyxl, gnumeric, python3-korean_lunar_calendar, python3-pandas, language-pack-ko, lynx
 
 ## 설치 (Install)
 
@@ -34,7 +34,7 @@ python3, fonts-nanum, python3-openpyxl, gnumeric, python3-korean_lunar_calendar,
 
 ## 우분투 이거나 apt-get 사용의 경우 의존성 설치
 
-	sudo apt-get install language-pack-ko python3 python3-openpyxl gnumeric python3-pandas fonts-nanum
+	sudo apt-get install language-pack-ko python3 python3-openpyxl gnumeric python3-pandas fonts-nanum lynx
 
 ## 파이썬 라이브러리 설치
 
