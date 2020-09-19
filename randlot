@@ -292,6 +292,17 @@ wget -q -O  /tmp/randlot_data.html   "https://dhlottery.co.kr/gameResult.do?meth
 
 ssconvert /tmp/randlot_data.html /tmp/randlot_data.xlsx
 
+lynx --dump "https://dhlottery.co.kr/gameResult.do?method=statByNumber" > /tmp/randlot/imsi
+cat /tmp/randlot/imsi | grep "%" -B1 -A1 |sed '/%/d' > /tmp/randlot/imsis
+
+cat /dev/null > /tmp/randlot/nums
+
+for (( i = 1; i < 46; i++ )); do
+	nums=`cat /tmp/randlot/imsis |grep -w $i -A1`
+	echo $nums >> /tmp/randlot/nums
+	
+done
+
 python3 dataproc.py $nnum $bnum $amount $avera $half $time $camel $test
 
 exit 0
