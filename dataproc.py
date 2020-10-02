@@ -57,11 +57,7 @@ load_ws = load_wb["1"]
 stime=time.time()
 
 # 오리지날 리스트
-olist=[]
-for i in range(45):
-	al=1+i
-	olist=olist+[al]
-	
+olist=list(range(1,46))
 # 적용 소수 설계
 
 n=45
@@ -455,23 +451,29 @@ def cnum_make(mlist):
 	else:
 		return cnum
 
-
 def make_mlist():
 	mlist=[]
 	fnum=random.choice(favorit_list)
 	mlist.append(fnum)
 	
 	fnum=random.choice(favorit_list)
+	mlist.append(fnum)
+	
+	fnum=random.choice(blist)
 	
 	if fnum in mlist:
-		fnum=random.choice(favorit_list)
+		fnum=random.choice(blist)
 	
 	mlist.append(fnum)
 
-	for i in range(4):
+	for i in range(2):
 		cnum=cnum_make(mlist)
 		
 		mlist.append(cnum)
+	
+	freenum=random.choice(ranlists)
+	
+	mlist.append(freenum)
 	
 	chk_mlist=set(list(mlist))
 	
@@ -497,12 +499,30 @@ else:
 
 os.system('cat /dev/null > /tmp/randlot_averas')
 
+
+def blist_make():
+	global blist
+	blist=[]
+	for i in range(6):
+		bmake=random.choice(ranlists)
+		blist.append(bmake)
+	chk_blist=set(list(blist))
+	if len(chk_blist) < 6:
+		blist_make()
+	
+
+blist_make()
+
+
+
+
 def proc_make(numproc):
 	file=open('/tmp/randlot_averas' , 'a')
 	for i in range(proc_avera):
 		numi=i
 		mlist=make_mlist()
 		mlist.sort()
+		blist=mlist
 		data=str(mlist)
 		data=data.strip('[]')
 		file.write(data+"\n")
@@ -617,8 +637,16 @@ for i in range(7):
 	top_sort_of_coumputed_list.append(li)
 
 # 연산된 리스트에서 잡아내기
+hists=[]
+
+def hists_proc(brc):
+	global hists
+	for i in range(6):
+		brcnum=brc[i]
+		hists.append(brcnum)
 
 def choice_rc(brc):
+	hists_proc(brc)
 	nrc=random.choice(rcs)
 	
 	nrc_chk=set(list(nrc))
@@ -630,6 +658,11 @@ def choice_rc(brc):
 	
 	chk_nb1=set(nrc) & set (brc)
 	
+	chk_dlist=set(dlist) & set(nrc)
+	
+	if len(chk_dlist) < 2:
+		choice_rc(brc)
+	
 	if len(chk_nb1) < 1:
 		choice_rc(brc)
 	
@@ -638,17 +671,33 @@ def choice_rc(brc):
 	if len(chk_nb2) < 2:
 		choice_rc(brc)
 	
-	chkmlist=list(set(nrc))
+	choice_hist=random.choice(hists)
 	
-
+	
+	for i in range(2):
+		
+		if choice_hist not in nrc:
+			nrc.remove(random.choice(nrc))
+			nrc.append(choice_hist)
+	
+	
+	nrc.sort()
 	return nrc
 	
 rate_per=0
 
 brc=nrc=random.choice(rcs)
 for i in range(amount):
+	dlist=olist
 	rc=choice_rc(brc)
-	
+	brc=rc
+	crc=set(rc) & set(dlist)
+	crc=list(crc)
+	for i in range(len(crc)):
+		ia=crc[i]
+		dlist.remove(ia)
+	if len(dlist) < 2:
+		dlist=olist
 	if half == 1:
 		for i in range(3):
 			sel=random.choice(rc)
@@ -662,8 +711,7 @@ for i in range(amount):
 			rate_per=rate_per+rated
 		print(rc, test_rc, len(test_rc), )
 	if test != "test":
-			
-			print(rc)
+		print(rc)
 if test =="test":
 	check_top_nums=set(after_list) & set(favorit_list)
 	per_fav=len(check_top_nums)/23 *100
@@ -693,4 +741,4 @@ if test =="test":
 		
 etime=time.time()
 proc_time=etime-stime
-print("연산에 걸린 총 시간은", proc_time , "입니다.")
+print("연산에 걸린 총 시간은", int(proc_time) , "초 입니다.")
