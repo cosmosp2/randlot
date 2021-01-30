@@ -694,27 +694,17 @@ rate_per=0
 hist=[]
 dnot_hist_list=olist
 firsts=[]
-lasts=[]
 brc=nrc=random.choice(rcs)
-
 for i in range(amount):
 	for brcnum in brc:
 		hist.append(brcnum)	
 	firsts.append(brc[0])
-	firsts.append(brc[5])
 	firsts=list(set(firsts))
-	lasts=list(set(lasts))
 	if len(dnot_hist_list) < 7:
 		dnot_hist_list=olist
-		
-	if len(firsts) > 2 :
+	if len(firsts) > 3 :
 		firsts=[]
 		firsts.append(brc[0])
-	
-	if len(lasts) > 2 :
-		lasts=[]
-		lasts.append(brc[5])
-	
 	dnot_hist_list=list(set(dnot_hist_list)-set(brc))
 
 	
@@ -737,13 +727,12 @@ for i in range(amount):
 	folk_lists=[]
 	
 	while len(folk_lists) < 1:
+	
+	
 		for folk_list in rcs:
 			if brc_choice in folk_list and hist_choice and hist_choice in folk_list and dnot_choice in folk_list:
 				if folk_list[0] not in firsts:
-					if folk_list[5] not in lasts:
-						folk_lists.append(folk_list)
-					
-					
+					folk_lists.append(folk_list)
 	rc=random.choice(folk_lists)
 	
 	brc=rc
