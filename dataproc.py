@@ -22,6 +22,8 @@
 #  MA 02110-1301, USA.
 
 
+
+
 import multiprocessing
 import time
 import random
@@ -34,6 +36,8 @@ import operator
 import pandas as pd
 from random import shuffle
 from openpyxl import load_workbook
+import warnings
+
 
 nnum=int(sys.argv[1])
 bnum=int(sys.argv[2])
@@ -45,16 +49,20 @@ camel=str(sys.argv[7])
 test=str(sys.argv[8])
 
 cc=os.cpu_count()
+stime=time.time()
 
 snum=nnum-bnum
 value=2
+warnings.simplefilter("ignore")
 
 load_wb = load_workbook("/tmp/randlot_data.xlsx", data_only=True)
 sheet=load_wb.active
+warnings.simplefilter("default")
+warnings.simplefilter("ignore")
+
 sheet.title = "1"
 load_ws = load_wb["1"]
 
-stime=time.time()
 
 # 오리지날 리스트
 olist=list(range(1,46))
@@ -308,7 +316,7 @@ for i in range(snum):
 	
 		add(dnot_num)
 # 프린트
-
+print("\n기본 분석 현황")
 if h > 3  :
 	print("이전회차는 홀수가 더 많았습니다.")
 
@@ -325,10 +333,10 @@ if len(sosuc) == 3:
 
 
 if len(sosuc) > 3:
-	print("소수가 더 많이 출현 했었습니다.")
+	print("이전 회차는 소수가 더 많이 출현 했었습니다.")
 	
-if len(sosuc) < 0:
-	print("소수가 더 적게 출현 했습니다.")
+if len(sosuc) < 3:
+	print("이전 회차는 소수가 더 적게 출현 했습니다.")
 	
 	
 if hap > 128 :
@@ -363,49 +371,11 @@ if int(date) > 0:
 			add(choice)
 			
 
-print("주역 숫자를 계산 합니다. 주역숫자 :",camel)
-sik="+-*"
-rcs_=[]
-a=[]
-camel='3258'
-camel_avera=avera/22
-for i in range(int(camel_avera)):
-	math_lenth=random.randint(1,9)
-	if math_lenth == 1:
-		camel_math=camel[random.randint(0,3)]
-	if math_lenth == 2:
-		camel_math=camel[random.randint(0,3)]+camel[random.randint(0,3)]
-	if math_lenth == 3:
-		camel_math=camel[random.randint(0,3)]+sik[random.randint(0,2)]+camel[random.randint(0,3)]
-	if math_lenth == 4:
-		camel_math=camel[random.randint(0,3)]+camel[random.randint(0,3)]+sik[random.randint(0,2)]+camel[random.randint(0,3)]
-	if math_lenth == 5:
-		camel_math=camel[random.randint(0,3)]+camel[random.randint(0,3)]+sik[random.randint(0,2)]+camel[random.randint(0,3)]+camel[random.randint(0,3)]
-	if math_lenth == 6:
-		camel_math=camel[random.randint(0,3)]+sik[random.randint(0,2)]+camel[random.randint(0,3)]+sik[random.randint(0,2)]+camel[random.randint(0,3)]
-	if math_lenth == 7:
-		camel_math=camel[random.randint(0,3)]+camel[random.randint(0,3)]+sik[random.randint(0,2)]+camel[random.randint(0,3)]+sik[random.randint(0,2)]+camel[random.randint(0,3)]
-	if math_lenth == 8:
-		camel_math=camel[random.randint(0,3)]+camel[random.randint(0,3)]+sik[random.randint(0,2)]+camel[random.randint(0,3)]+camel[random.randint(0,3)]+sik[random.randint(0,2)]+camel[random.randint(0,3)]
-	if math_lenth == 9:
-		camel_math=camel[random.randint(0,3)]+sik[random.randint(0,2)]+camel[random.randint(0,3)]+camel[random.randint(0,3)]+sik[random.randint(0,2)]+camel[random.randint(0,3)]
-	math_answer=eval(camel_math)
-	
-	if 0 < int(math_answer) < 46:
-		add(int(math_answer))
-
-print("출력 개수: ",amount)
 
 
 print("사전 조합 개수 자동 설정... 총 ",avera,"개로 계산됨.")
 
-# 섞기 및 반자동을 위한 '0' 포함 
 
-if half == 1:
-	print("반자동을 위한 0값을 포함 합니다")
-
-if half == 0:
-	print("반자동을 포함하지 않습니다.")
 		
 for i in range(cc*2):
 	shuffle(first)
@@ -422,7 +392,6 @@ for i in range(cc*2):
 
 for i in range(cc*2):
 	shuffle(five)
-
 
 for i in range(cc*2):
 	shuffle(six)
@@ -444,9 +413,6 @@ for i in range(len(alist)):
 	for i in range(ais):
 		ranlists.append(ai[0])
 
-for i in range(2):
-	shuffle(ranlists)
-
 
 
 ranlists_dict={}
@@ -456,7 +422,23 @@ for i in range(45):
 	ranlists_dict[ai]=aic
 sort_of_ranlists_dict=sorted(ranlists_dict.items(), key=operator.itemgetter(1), reverse=True )
 
-print("기초 확률 총 순위 (내림차순)\n",sort_of_ranlists_dict)
+
+
+# 기초 난수 평준화 및 재작성
+
+ranlists_average=len(ranlists)/45
+
+
+ranlists_dict_average={}
+for i in range(45):
+	ai=i+1
+	ranlists_dict_average[ai]=(ranlists_dict[ai]-ranlists_average)/3.14/45+ranlists_average
+	
+
+
+
+
+print("\n기초 난수 순위와 평준화")
 
 favorit_list=[]
 for i in range(23):
@@ -476,48 +458,50 @@ for i in range(7):
 	seven=seven[0]
 	seven_list.append(seven)
 
+computed_ranlists=[]
+for i in range(45):
+	ai=i+1
+	wr=ranlists_dict_average[ai]
+	wr=int(wr)
+	for i in range(wr):
+		computed_ranlists.append(ai)
 
-# 본격 사전 조합 생성 
+computed_lists=[]
+for i in range(45):
+	computed_list=[]
+	ai=i+1
+	fnum=sort_of_ranlists_dict[i]
+	fnum=fnum[0]
+	computed_list.append(sort_of_ranlists_dict[i])
+	computed_list.append(ranlists_dict_average[fnum])
+	computed_lists.append(computed_list)
 
-def cnum_make(mlist):
-	cnum=random.choice(ranlists)
-	if cnum in mlist:
-		cnum_make(mlist)
-	
-	if cnum == "None":
-		cnum_make(mlist)
-	else:
-		return cnum
+print(computed_lists)
+
+# 본격 사전 조합 생성 함수 
+
+for i in range(2):
+	shuffle(computed_ranlists)
+
+def make_num():
+	r=random.choice(computed_ranlists)
+	if r in mlist:
+		make_num()		
+	for i in range(1):
+		computed_ranlists.append(r)	
+	return r
 
 def make_mlist():
+	global mlist
 	mlist=[]
-	fnum=random.choice(favorit_list)
-	mlist.append(fnum)
-	
-	fnum=random.choice(favorit_list)
-	mlist.append(fnum)
-	
-	fnum=random.choice(blist)
-	
-	if fnum in mlist:
-		fnum=random.choice(blist)
-	
-	mlist.append(fnum)
-
-	for i in range(2):
-		cnum=cnum_make(mlist)
-		
-		mlist.append(cnum)
-	
-	freenum=random.choice(ranlists)
-	
-	mlist.append(freenum)
-	
-	chk_mlist=set(list(mlist))
-	
-	if len(chk_mlist) < 6:
-		
-		make_mlist()
+	for i in range(6):
+		r=make_num()
+		mlist.append(r)
+	miner_nums=list(set(olist)-set(mlist))
+	for i in range(len(miner_nums)):
+		sel_num=miner_nums[i]	
+		for i in range(2):
+			computed_ranlists.append(sel_num)
 	return mlist
 	
 
@@ -528,7 +512,7 @@ proc_avera=int(avera/cc)
 numproc=range(0,cc)
 
 if cc > 1:
-	print("귀하의 PC의 코어가",cc,"개 로 확인 되었습니다. 멀티프로세싱을 활용 하여 연산 합니다.")
+	print("\n귀하의 PC의 코어가",cc,"개 로 확인 되었습니다. 멀티프로세싱을 활용 하여 연산 합니다.")
 	ac=int(cc/2)
 else:
 	ac=1
@@ -538,29 +522,13 @@ else:
 os.system('cat /dev/null > /tmp/randlot_averas')
 
 
-def blist_make():
-	global blist
-	blist=[]
-	for i in range(6):
-		bmake=random.choice(ranlists)
-		blist.append(bmake)
-	chk_blist=set(list(blist))
-	if len(chk_blist) < 6:
-		blist_make()
-	
-
-blist_make()
-
-
 
 
 def proc_make(numproc):
 	file=open('/tmp/randlot_averas' , 'a')
 	for i in range(proc_avera):
-		numi=i
 		mlist=make_mlist()
 		mlist.sort()
-		blist=mlist
 		data=str(mlist)
 		data=data.strip('[]')
 		file.write(data+"\n")
@@ -591,7 +559,7 @@ for i in range(len(alist)):
 for i in range(cc):
 	
 	shuffle(rcs)
-print("실제 연산된 리스트 개수 :", len(rcs))
+print("\n실제 연산된 리스트 개수 :", len(rcs))
 
 
 # 연산된 난수 총 순위
@@ -610,19 +578,65 @@ for i in range(45):
 	ranlists_dict[ai]=aic
 sort_of_coumputed_list=sorted(ranlists_dict.items(), key=operator.itemgetter(1), reverse=True )
 
+# 연산된 난수 평준화 및 재작성
+
+ranlists_average=len(ranlists)/45
+
+upper_count=int(ranlists_average/45/7.5)
+
+
+if upper_count < 2 and upper_count < 1:
+	upper_count = 2
+	half_upper_count=1
+
+half_upper_count=int(upper_count/2)
+
+if half_upper_count < 1:
+	half_upper_count = 1
+
+print("\n연산된 승격 합산 수:", upper_count, half_upper_count)
+
+
+ranlists_dict_average={}
+for i in range(45):
+	ai=i+1
+	ranlists_dict_average[ai]=(ranlists_dict[ai]-ranlists_average)/3.14/45+ranlists_average
+	
+
 after_flist=[]
 for i in range(23):
 	favorit=sort_of_coumputed_list[i]
 	favorit=favorit[0]
 	after_flist.append(favorit)
 
-print("연산된 난수 총 순위 (내림차순)\n",sort_of_coumputed_list)
 
-computed_low_list=[]
-for i in range(22):
-	seven=sort_of_ranlists_dict[-i]
+print("\n연산된 난수 순위와 평준화")
+computed_lists=[]
+for i in range(45):
+	computed_list=[]
+	ai=i+1
+	fnum=sort_of_coumputed_list[i]
+	fnum=fnum[0]
+	computed_list.append(sort_of_coumputed_list[i])
+	computed_list.append(ranlists_dict_average[fnum])
+	computed_lists.append(computed_list)
+
+print(computed_lists)
+
+computed_ranlists=[]
+for i in range(45):
+	ai=i+1
+	wr=ranlists_dict_average[ai]
+	wr=int(wr)
+	for i in range(wr):
+		computed_ranlists.append(ai)
+
+	
+computed_favorit_list=[]
+for i in range(23):
+	seven=sort_of_coumputed_list[i]
 	seven=seven[0]
-	computed_low_list.append(seven)
+	computed_favorit_list.append(seven)
 
 
 rate1=0
@@ -670,7 +684,7 @@ if test == "test":
 		after_list=[data2]+[data3]+[data4]+[data5]+[data6]+[data7]
 
 		if a ==4:
-			print("테스트 적용 회차: ", after_num, " 의 당첨번호는 ",after_list,"입니다.")
+			print("\n테스트 적용 회차: ", after_num, " 의 당첨번호는 ",after_list,"입니다.")
 
 	after_list=set(after_list)
 
@@ -686,6 +700,7 @@ for i in range(7):
 	li=sort_of_coumputed_list[i]
 	top_sort_of_coumputed_list.append(li)
 
+
 # 연산된 리스트에서 잡아내기
 hists=[]
 
@@ -695,59 +710,34 @@ hist=[]
 dnot_hist_list=olist
 firsts=[]
 lasts=[]
+three=[]
 brc=nrc=random.choice(rcs)
+rcns=[]
+print("\n추천 번호 출력")
 
 for i in range(amount):
-	for brcnum in brc:
-		hist.append(brcnum)	
-	firsts.append(brc[0])
-	firsts.append(brc[5])
-	firsts=list(set(firsts))
-	lasts=list(set(lasts))
-	if len(dnot_hist_list) < 7:
-		dnot_hist_list=olist
-		
-	if len(firsts) > 2 :
-		firsts=[]
-		firsts.append(brc[0])
 	
-	if len(lasts) > 2 :
-		lasts=[]
-		lasts.append(brc[5])
-	
-	dnot_hist_list=list(set(dnot_hist_list)-set(brc))
-
-	
-	brc_fnum=brc[0]
-	for i in range(6):
-		shuffle(brc)
-		shuffle(hist)
-		shuffle(dnot_hist_list)
-		shuffle(low_list)
-		shuffle(after_flist)
-		shuffle(computed_low_list)
-	brc_choice=random.choice(brc)
-	brc.remove(brc_choice)
-	brc_choice2=random.choice(brc)
-	hist_choice=random.choice(hist)
-	hist_choice2=random.choice(hist)
-	dnot_choice=random.choice(dnot_hist_list)
-	after_flist_choice=random.choice(after_flist)
-	low_list_choice=random.choice(low_list)
 	folk_lists=[]
 	
-	while len(folk_lists) < 1:
-		for folk_list in rcs:
-			if brc_choice in folk_list and hist_choice and hist_choice in folk_list and dnot_choice in folk_list:
-				if folk_list[0] not in firsts:
-					if folk_list[5] not in lasts:
-						folk_lists.append(folk_list)
-					
-					
-	rc=random.choice(folk_lists)
-	
-	brc=rc
+	rc=[]
+	for i in range(6):
+		crs=set(computed_ranlists) - set(rc)
+		crs=list(crs)
+		r=random.choice(crs)
 		
+		# 연산된 난수의 승격
+		for i in range(half_upper_count):
+			computed_ranlists.append(r)			
+		rc.append(r)
+	rc.sort()
+	
+	miner_nums=list(set(olist)-set(rc))
+	for i in range(len(miner_nums)):
+		sel_num=miner_nums[i]	
+		for i in range(upper_count):
+			computed_ranlists.append(sel_num)
+	brc=rc
+	rcns.append(rc)
 	if half == 1:
 		for i in range(3):
 			sel=random.choice(rc)
@@ -762,19 +752,23 @@ for i in range(amount):
 		print(rc, test_rc, len(test_rc), )
 	if test != "test":
 		print(rc)
-		
+
+# 테스트 출력
+
 if test =="test":
 	check_top_nums=set(after_list) & set(favorit_list)
 	per_fav=len(check_top_nums)/23 *100
-	print("상위 리스트 적중 확률 :",per_fav,"%")
-	rate_per=rate_per/amount*100
-	print("총 당첨 확률 :",rate_per,"%")
+	print("\n기초 확률 상위 리스트 적중 확률 :",per_fav,"%")
+
+	check_top_nums=set(after_list) & set(computed_favorit_list)
+	per_fav=len(check_top_nums)/23 *100
+	print("\n연산 상위 리스트 적중 확률 :",per_fav,"%")
 	a3=0
 	a4=0
 	a5=0
 	a6=0
 	for i in range(len(rcs)):
-		rcs_list=rcs[i]
+		rcs_list = rcs[i]
 		chk_rcs_list=set(rcs_list) & set(after_list)
 		if len(chk_rcs_list) == 3:
 			a3=a3+1
@@ -784,8 +778,31 @@ if test =="test":
 			a5=a5+1	
 		if len(chk_rcs_list) == 6:
 			a6=a6+1
-	print("전체 연산된 리스트", len(rcs)," 중... 3개 적중 :",a3," 4개 적중 :",a4,"  5개 적중 :",a5," 6개 적중 :",a6)
+	print("전체 연산된 리스트", len(rcs),"가지 경우 중... 3개 적중 :",a3," 4개 적중 :",a4,"  5개 적중 :",a5," 6개 적중 :",a6)
+
+if test =="test":
+	rate_per=rate_per/amount*100
+	print("\n총 출력 된 추천 번호들의 총 당첨 확률 :",rate_per,"%")
+	a3=0
+	a4=0
+	a5=0
+	a6=0
+	for i in range(len(rcns)):
+		rcs_list=rcns[i]
+		chk_rcs_list=set(rcs_list) & set(after_list)
+		if len(chk_rcs_list) == 3:
+			a3=a3+1
+		if len(chk_rcs_list) == 4:
+			a4=a4+1
+		if len(chk_rcs_list) == 5:
+			a5=a5+1	
+		if len(chk_rcs_list) == 6:
+			a6=a6+1
+	print("전체 출력된 추천 리스트", len(rcns),"개 중... 3개 적중 :",a3," 4개 적중 :",a4,"  5개 적중 :",a5," 6개 적중 :",a6)
 		
 etime=time.time()
 proc_time=etime-stime
-print("연산에 걸린 총 시간은", int(proc_time) , "초 입니다.")
+print("\n연산에 걸린 총 시간은", int(proc_time) , "초 입니다.")
+
+
+

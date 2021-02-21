@@ -20,6 +20,8 @@
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
 
+
+
 if [[ -s y ]]; then
 	cat /dev/null > y
 
@@ -42,7 +44,7 @@ if [[ -s /tmp/randlot_after_data.xlsx ]]; then
 fi
 
 
-Version=0.1-24
+Version=0.1-25
 
 if [[ $1 = "--help" ]] || [[ $1 = "-h" ]]; then
 	echo "randlot $Version

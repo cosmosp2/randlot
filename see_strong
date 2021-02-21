@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+
+
 if [[ ! -d  /tmp/randlot ]]; then
   mkdir /tmp/randlot
 fi
