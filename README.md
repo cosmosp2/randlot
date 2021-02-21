@@ -45,6 +45,8 @@ python3, fonts-nanum, python3-openpyxl, gnumeric, python3-korean_lunar_calendar,
 
 ## 사용 방법
 
+	./randlot --help
+
 ### 문답형으로 시작할 경우
 
 	./randlot 
@@ -55,9 +57,9 @@ python3, fonts-nanum, python3-openpyxl, gnumeric, python3-korean_lunar_calendar,
 
 # 제작자 (Maintainer)
 
-COSMOS Project.2015
-https://cosmosproject2015.tistory.com/
-cosmosproject15@gmail.com
+Hanle Os를 꿈꾸며  https://cosmosproject2015.tistory.com/
+
+Email : cosmosproject15@gmail.com
 
 # 라이센스 (License)
 

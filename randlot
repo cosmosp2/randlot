@@ -50,9 +50,9 @@ if [[ $1 = "--help" ]] || [[ $1 = "-h" ]]; then
 	echo "randlot $Version
 usage:
 
-1.	./start 
+1.	./randlot
 
-2.	./start option.conf
+2.	./randlot option.conf
 
 Report bugs to cosmosproject15@gmail.com
 "
