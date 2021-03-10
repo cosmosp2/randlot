@@ -1,3 +1,7 @@
+<head>
+<meta name="google-site-verification" content="740d-so2ChBm8wVydtNPWmMKLOPN1aIVlVnpAPDmL9E" />
+</head>
+
 # randlot
 
 This Repositries is make randomic numbers program for Lotto of korea (6/45)
@@ -64,5 +68,3 @@ Email : cosmosproject15@gmail.com
 # 라이센스 (License)
 
 GPL-2.0
-
-<meta name="google-site-verification" content="740d-so2ChBm8wVydtNPWmMKLOPN1aIVlVnpAPDmL9E" />
