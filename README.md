@@ -1,4 +1,3 @@
-
 # randlot
 
 This Repositries is make randomic numbers program for Lotto of korea (6/45)
