@@ -695,7 +695,6 @@ for i in range(7):
 
 hists=[]
 
-
 rate_per=0
 hist=[]
 dnot_hist_list=olist
