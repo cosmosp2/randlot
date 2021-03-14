@@ -1,16 +1,3 @@
-<head>
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-YYSL0RJVD5"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-YYSL0RJVD5');
-</script>
-<meta name="google-site-verification" content="740d-so2ChBm8wVydtNPWmMKLOPN1aIVlVnpAPDmL9E" />
-</head>
-
 # randlot
 
 This Repositries is make randomic numbers program for Lotto of korea (6/45)
