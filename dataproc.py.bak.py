@@ -136,6 +136,8 @@ for i in range(3):
 
 
 
+
+
 # 추가 적용 함수 
 
 def add(num):
@@ -165,7 +167,6 @@ dnot_dict={}
 for i in range(45):
 	ai=i+1
 	dnot_dict[ai]=0
-	
 	
 
 for i in range(snum):
@@ -574,7 +575,7 @@ sort_of_coumputed_list=sorted(ranlists_dict.items(), key=operator.itemgetter(1),
 
 ranlists_average=len(ranlists)/45
 
-upper_count=int(ranlists_average/45*5)
+upper_count=int(ranlists_average/45*3)
 
 
 if upper_count < 2 and upper_count < 1:
@@ -688,13 +689,12 @@ for i in range(23):
 	top_of_sort_of_ranlists_dict.append(li)
 
 top_sort_of_coumputed_list=[]
-for i in range(23):
+for i in range(7):
 	li=sort_of_coumputed_list[i]
-	li=li[0]
 	top_sort_of_coumputed_list.append(li)
 
 
-
+hists=[]
 
 rate_per=0
 hist=[]
@@ -704,10 +704,11 @@ lasts=[]
 three=[]
 brc=nrc=random.choice(rcs)
 rcns=[]
+not_list=list(range(1,46))
 print("\n추천 번호 출력")
-hists=[]
-not_list=olist
-for i in range(int(amount/2)):
+
+
+for i in range(amount):
 	
 	folk_lists=[]
 	rc=[]
@@ -719,7 +720,7 @@ for i in range(int(amount/2)):
 		
 		# 연산된 난수의 승격
 		for i in range(half_upper_count):
-			computed_ranlists.append(r)			
+			computed_ranlists.append(r)
 		rc.append(r)
 	rc.sort()
 	
@@ -729,47 +730,13 @@ for i in range(int(amount/2)):
 		for i in range(upper_count):
 			computed_ranlists.append(sel_num)
 	brc=rc
-
 	rcns.append(rc)
 	for i in range(6):
-		hists.append(brc[i])
-		if brc in not_list:
-			not_list.remove(brc[i])
+		if rc[i] in not_list:
+			not_list.remove(rc[i])
 
-	# rc2 작성
-	rc2=[]
-	r=random.choice(crs)	
-	
-	while r == brc[0]:
-		r=random.choice(crs)	
-	rc2.append(r)
-
-	r=random.choice(brc)	
-	while r in rc2:
-		r=random.choice(brc)	
-	rc2.append(r)
-
-	r=random.choice(hists)
-	while r in rc2:
-		r=random.choice(hists)
-	rc2.append(r)
-
-	r=random.choice(not_list)
-	while r in rc2:
-		r=random.choice(not_list)
-	rc2.append(r)
-
-	r=random.choice(top_sort_of_coumputed_list)
-	while r in rc2:
-		r=random.choice(top_sort_of_coumputed_list)
-	rc2.append(r)
-
-	r=random.choice(crs)
-	while r in rc2:
-		r=random.choice(crs)
-	rc2.append(r)
-
-	rc2.sort()
+	if rc in not_list:
+		not_list.remove(i)
 
 	if half == 1:
 		for i in range(3):
@@ -782,18 +749,9 @@ for i in range(int(amount/2)):
 		if len(test_rc) > 2:
 			rated=len(test_rc)*0.25
 			rate_per=rate_per+rated
-		
-		print(rc, test_rc, len(test_rc) )
-
-		test_rc=set(after_list) & set(rc2)
-		if len(test_rc) > 2:
-			rated=len(test_rc)*0.25
-			rate_per=rate_per+rated
-		print(rc2, test_rc, len(test_rc) )
-
+		print(rc, test_rc, len(test_rc), )
 	if test != "test":
 		print(rc)
-		print(rc2)
 
 # 테스트 출력
 
@@ -846,7 +804,6 @@ etime=time.time()
 proc_time=etime-stime
 print("\n연산에 걸린 총 시간은", int(proc_time) , "초 입니다.")
 
-print(half_upper_count,upper_count)
+print("비출현 번호 : ", not_list)
 
 
-print(top_sort_of_coumputed_list)

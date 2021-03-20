@@ -136,6 +136,8 @@ for i in range(3):
 
 
 
+
+
 # 추가 적용 함수 
 
 def add(num):
@@ -165,7 +167,6 @@ dnot_dict={}
 for i in range(45):
 	ai=i+1
 	dnot_dict[ai]=0
-	
 	
 
 for i in range(snum):
@@ -385,7 +386,6 @@ for i in range(cc*2):
 for i in range(cc*2):
 	shuffle(fourth)
 
-
 for i in range(cc*2):
 	shuffle(five)
 
@@ -395,7 +395,6 @@ for i in range(cc*2):
 # 기초 확률 순위 계산
 
 ranlists=first+second+third+fourth+five+six
-
 
 with open('/tmp/randlot/nums', 'r') as f:
 	list_file = f.readlines()
@@ -409,8 +408,6 @@ for i in range(len(alist)):
 	for i in range(ais):
 		ranlists.append(ai[0])
 
-
-
 ranlists_dict={}
 for i in range(45):
 	ai=i+1
@@ -420,69 +417,32 @@ sort_of_ranlists_dict=sorted(ranlists_dict.items(), key=operator.itemgetter(1), 
 
 # 기초 난수 평준화 및 재작성
 
-ranlists_average=len(ranlists)/45
+print("기초 평준화 계산 및 재작성")
+nums=0
 
 
-ranlists_dict_average={}
+nums=int(nums/45/8)
+
+
+ptn=[3,2,1,0,1,2,3,3,2,1,0,1,2,3,3,2,1,0,1,2,3,3,2,1,0,1,2,3,3,2,1,0,1,2,3,3,2,1,0,1,2,3,3,2,1]
 for i in range(45):
-	ai=i+1
-	ranlists_dict_average[ai]=(ranlists_dict[ai]-ranlists_average)/3.14/45+ranlists_average
-	
+	ia=i+1
+	selptn=ptn[i]
+	for item in range(selptn*nums):
+		ranlists.append(ia)
 
-
-
-
-print("\n기초 난수 순위와 평준화")
-
-favorit_list=[]
-for i in range(23):
-	favorit=sort_of_ranlists_dict[i]
-	favorit=favorit[0]
-	favorit_list.append(favorit)
-
-low_list=[]
-for i in range(22):
-	seven=sort_of_ranlists_dict[-i]
-	seven=seven[0]
-	low_list.append(seven)
-
-seven_list=[]
-for i in range(7):
-	seven=sort_of_ranlists_dict[i]
-	seven=seven[0]
-	seven_list.append(seven)
-
-computed_ranlists=[]
-for i in range(45):
-	ai=i+1
-	wr=ranlists_dict_average[ai]
-	wr=int(wr)
-	for i in range(wr):
-		computed_ranlists.append(ai)
-
-computed_lists=[]
-for i in range(45):
-	computed_list=[]
-	ai=i+1
-	fnum=sort_of_ranlists_dict[i]
-	fnum=fnum[0]
-	computed_list.append(sort_of_ranlists_dict[i])
-	computed_list.append(ranlists_dict_average[fnum])
-	computed_lists.append(computed_list)
-
-print(computed_lists)
 
 # 본격 사전 조합 생성 함수 
 
 for i in range(2):
-	shuffle(computed_ranlists)
+	shuffle(ranlists)
 
 def make_num():
-	r=random.choice(computed_ranlists)
+	r=random.choice(ranlists)
 	if r in mlist:
 		make_num()		
 	for i in range(1):
-		computed_ranlists.append(r)	
+		ranlists.append(r)	
 	return r
 
 def make_mlist():
@@ -495,7 +455,7 @@ def make_mlist():
 	for i in range(len(miner_nums)):
 		sel_num=miner_nums[i]	
 		for i in range(2):
-			computed_ranlists.append(sel_num)
+			ranlists.append(sel_num)
 	return mlist
 	
 
@@ -572,6 +532,25 @@ sort_of_coumputed_list=sorted(ranlists_dict.items(), key=operator.itemgetter(1),
 
 # 연산된 난수 평준화 및 재작성
 
+favorit_list=[]
+for i in range(23):
+	favorit=sort_of_ranlists_dict[i]
+	favorit=favorit[0]
+	favorit_list.append(favorit)
+
+low_list=[]
+for i in range(22):
+	seven=sort_of_ranlists_dict[-i]
+	seven=seven[0]
+	low_list.append(seven)
+
+seven_list=[]
+for i in range(7):
+	seven=sort_of_ranlists_dict[i]
+	seven=seven[0]
+	seven_list.append(seven)
+
+
 ranlists_average=len(ranlists)/45
 
 upper_count=int(ranlists_average/45*3)
@@ -615,13 +594,13 @@ for i in range(45):
 
 print(computed_lists)
 
-computed_ranlists=[]
+ranlists=[]
 for i in range(45):
 	ai=i+1
 	wr=ranlists_dict_average[ai]
 	wr=int(wr)
 	for i in range(wr):
-		computed_ranlists.append(ai)
+		ranlists.append(ai)
 
 	
 computed_favorit_list=[]
@@ -711,23 +690,24 @@ for i in range(amount):
 	
 	folk_lists=[]
 	rc=[]
-
-	for i in range(6):
-		crs=set(computed_ranlists) - set(rc)
-		crs=list(crs)
-		r=random.choice(crs)
-		
-		# 연산된 난수의 승격
-		for i in range(half_upper_count):
-			computed_ranlists.append(r)			
-		rc.append(r)
+	while len(set(computed_favorit_list) & set(rc)) < 3 and len(set(favorit_list) & set(rc)) < 3:
+		rc=[]
+		for i in range(6):
+			crs=set(ranlists) - set(rc)
+			crs=list(crs)
+			r=random.choice(crs)
+			
+			# 연산된 난수의 승격
+			for i in range(half_upper_count):
+				ranlists.append(r)
+			rc.append(r)
 	rc.sort()
 	
 	miner_nums=list(set(olist)-set(rc))
 	for i in range(len(miner_nums)):
 		sel_num=miner_nums[i]	
 		for i in range(upper_count):
-			computed_ranlists.append(sel_num)
+			ranlists.append(sel_num)
 	brc=rc
 	rcns.append(rc)
 	for i in range(6):
@@ -756,12 +736,15 @@ for i in range(amount):
 
 if test =="test":
 	check_top_nums=set(after_list) & set(favorit_list)
+
 	per_fav=len(check_top_nums)/23 *100
 	print("\n기초 확률 상위 리스트 적중 확률 :",per_fav,"%")
+	print(check_top_nums)
 
 	check_top_nums=set(after_list) & set(computed_favorit_list)
 	per_fav=len(check_top_nums)/23 *100
 	print("\n연산 상위 리스트 적중 확률 :",per_fav,"%")
+	print(check_top_nums)
 	a3=0
 	a4=0
 	a5=0
