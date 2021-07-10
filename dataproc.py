@@ -757,13 +757,15 @@ if test =="test":
 			a6=a6+1
 	print("전체 출력된 추천 리스트", len(rcns),"개 중... 3개 적중 :",a3," 4개 적중 :",a4,"  5개 적중 :",a5," 6개 적중 :",a6)
 
-chk_dnots_list=set(dnots_first) & set(after_list)
-chk_dnots_list2=set(dnots_second) & set(after_list)
-chk_dnots_list3=set(dnots_third) & set(after_list)
+	chk_dnots_list=set(dnots_first) & set(after_list)
+	chk_dnots_list2=set(dnots_second) & set(after_list)
+	chk_dnots_list3=set(dnots_third) & set(after_list)
 
-print("미출현 번호 첫째 구역 출현 :",len(chk_dnots_list),chk_dnots_list)
-print("미출현 번호 둘째 구역 출현 :",len(chk_dnots_list2),chk_dnots_list2)
-print("미출현 번호 셋째 구역 출현 :",len(chk_dnots_list3),chk_dnots_list3)
+	print("\n미출현 번호 첫째 구역 출현 :",len(chk_dnots_list),chk_dnots_list)
+	print("미출현 번호 둘째 구역 출현 :",len(chk_dnots_list2),chk_dnots_list2)
+	print("미출현 번호 셋째 구역 출현 :",len(chk_dnots_list3),chk_dnots_list3)
+
+
 
 
 etime=time.time()
