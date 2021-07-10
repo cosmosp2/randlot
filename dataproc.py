@@ -135,9 +135,6 @@ for i in range(3):
 
 
 
-
-
-
 # 추가 적용 함수 
 
 def add(num):
@@ -273,8 +270,6 @@ for i in range(snum):
 			
 			sosuc=set(nowlist) & set(primes)
 			
-
-			
 			if len(sosuc) > 3:
 				for i in range(45):
 					sel=1+i
@@ -314,6 +309,7 @@ for i in range(snum):
 		dnot_dict[dnot_num]=dnot_dict[dnot_num]+1
 	
 		add(dnot_num)
+
 # 프린트
 print("\n기본 분석 현황")
 if h > 3  :
@@ -347,6 +343,21 @@ if hap < 128 :
 
 dnots=sorted(dnot_dict.items(), key=operator.itemgetter(1), reverse=True )
 print("미출현 번호 목록 (내림차순)\n",dnots)
+
+dnots_list=[]
+for i in range(45):
+	ia=dnots[i]
+	ia=ia[0]
+	dnots_list.append(ia)
+dnots_first=dnots_list[0:15]
+dnots_second=dnots_list[16:31]
+dnots_third=dnots_list[32:46]
+
+dnots_favorit=[]
+for item in range(23):
+	ia=dnots[item]
+	ia=ia[0]
+	dnots_favorit.append(ia)
 
 # 양력 , 음력 변수를 도입
 
@@ -417,12 +428,10 @@ sort_of_ranlists_dict=sorted(ranlists_dict.items(), key=operator.itemgetter(1), 
 
 # 기초 난수 평준화 및 재작성
 
-print("기초 평준화 계산 및 재작성")
 nums=0
 
 
 nums=int(nums/45/8)
-
 
 ptn=[3,2,1,0,1,2,3,3,2,1,0,1,2,3,3,2,1,0,1,2,3,3,2,1,0,1,2,3,3,2,1,0,1,2,3,3,2,1,0,1,2,3,3,2,1]
 for i in range(45):
@@ -464,7 +473,7 @@ rcss=[]
 
 proc_avera=int(avera/cc)
 numproc=range(0,cc)
-
+print("\n기초 순위\n",sort_of_ranlists_dict)
 if cc > 1:
 	print("\n귀하의 PC의 코어가",cc,"개 로 확인 되었습니다. 멀티프로세싱을 활용 하여 연산 합니다.")
 	ac=int(cc/2)
@@ -474,8 +483,6 @@ else:
 # 멀티 프로세싱 기반의 연산 작업 시작
 
 os.system('cat /dev/null > /tmp/randlot_averas')
-
-
 def proc_make(numproc):
 	file=open('/tmp/randlot_averas' , 'a')
 	for i in range(proc_avera):
@@ -505,7 +512,6 @@ for i in range(len(alist)):
 	ai=list(map(int, ai))
 	chk_ai=list(set(ai))
 	if len(chk_ai) == 6:
-		
 		rcs.append(ai)
 
 for i in range(cc):
@@ -530,7 +536,6 @@ for i in range(45):
 	ranlists_dict[ai]=aic
 sort_of_coumputed_list=sorted(ranlists_dict.items(), key=operator.itemgetter(1), reverse=True )
 
-# 연산된 난수 평준화 및 재작성
 
 favorit_list=[]
 for i in range(23):
@@ -552,22 +557,6 @@ for i in range(7):
 
 
 ranlists_average=len(ranlists)/45
-
-upper_count=int(ranlists_average/45*3)
-
-
-if upper_count < 2 and upper_count < 1:
-	upper_count = 2
-	half_upper_count=1
-
-half_upper_count=int(upper_count/2)
-
-if half_upper_count < 1:
-	half_upper_count = 1
-
-print("\n연산된 승격 합산 수:", upper_count, half_upper_count)
-
-
 ranlists_dict_average={}
 for i in range(45):
 	ai=i+1
@@ -579,20 +568,6 @@ for i in range(23):
 	favorit=sort_of_coumputed_list[i]
 	favorit=favorit[0]
 	after_flist.append(favorit)
-
-
-print("\n연산된 난수 순위와 평준화")
-computed_lists=[]
-for i in range(45):
-	computed_list=[]
-	ai=i+1
-	fnum=sort_of_coumputed_list[i]
-	fnum=fnum[0]
-	computed_list.append(sort_of_coumputed_list[i])
-	computed_list.append(ranlists_dict_average[fnum])
-	computed_lists.append(computed_list)
-
-print(computed_lists)
 
 ranlists=[]
 for i in range(45):
@@ -614,7 +589,6 @@ rate1=0
 
 
 if test == "test":
-	
 	after_num=nnum+1
 	load_wb = load_workbook("/tmp/randlot_after_data.xlsx", data_only=True)
 	sheet=load_wb.active
@@ -686,28 +660,29 @@ not_list=list(range(1,46))
 print("\n추천 번호 출력")
 
 
+
+# 번호 뽑기
+
 for i in range(amount):
-	
-	folk_lists=[]
-	rc=[]
-	while len(set(computed_favorit_list) & set(rc)) < 3 and len(set(favorit_list) & set(rc)) < 3:
-		rc=[]
-		for i in range(6):
-			crs=set(ranlists) - set(rc)
-			crs=list(crs)
-			r=random.choice(crs)
-			
-			# 연산된 난수의 승격
-			for i in range(half_upper_count):
-				ranlists.append(r)
-			rc.append(r)
+	selnice=random.randint(0,5)
+	chk_dnots_rcs=0
+	sel_rc=random.choice(rcs)
+	while True:
+		if 1 < len(set(sel_rc) & set(favorit_list)):
+			if 1 < len(set(sel_rc) & set(dnots_first)) :
+				if 1 < len(set(sel_rc) & set(dnots_second)):
+					if 0 < len(set(sel_rc) & set(dnots_third)):
+						rc=sel_rc
+						break
+		sel_rc=random.choice(rcs)
+		
+
 	rc.sort()
 	
 	miner_nums=list(set(olist)-set(rc))
 	for i in range(len(miner_nums)):
 		sel_num=miner_nums[i]	
-		for i in range(upper_count):
-			ranlists.append(sel_num)
+		
 	brc=rc
 	rcns.append(rc)
 	for i in range(6):
@@ -781,11 +756,19 @@ if test =="test":
 		if len(chk_rcs_list) == 6:
 			a6=a6+1
 	print("전체 출력된 추천 리스트", len(rcns),"개 중... 3개 적중 :",a3," 4개 적중 :",a4,"  5개 적중 :",a5," 6개 적중 :",a6)
-		
+
+chk_dnots_list=set(dnots_first) & set(after_list)
+chk_dnots_list2=set(dnots_second) & set(after_list)
+chk_dnots_list3=set(dnots_third) & set(after_list)
+
+print("미출현 번호 첫째 구역 출현 :",len(chk_dnots_list),chk_dnots_list)
+print("미출현 번호 둘째 구역 출현 :",len(chk_dnots_list2),chk_dnots_list2)
+print("미출현 번호 셋째 구역 출현 :",len(chk_dnots_list3),chk_dnots_list3)
+
+
 etime=time.time()
 proc_time=etime-stime
 print("\n연산에 걸린 총 시간은", int(proc_time) , "초 입니다.")
 
 print("비출현 번호 : ", not_list)
-
 
