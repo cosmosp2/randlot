@@ -44,7 +44,7 @@ if [[ -s /tmp/randlot_after_data.xlsx ]]; then
 fi
 
 
-Version=0.1-26
+Version=0.1-27
 
 if [[ $1 = "--help" ]] || [[ $1 = "-h" ]]; then
 	echo "randlot $Version
@@ -69,7 +69,6 @@ if [[ $1 = "-v"  ]] || [[ $1 = "--version" ]] || [[ $1 = "-V" ]]; then
 	echo "randlot $Version"
 	exit 0
 fi
-
 
 strong=`bash see_strong`
 
