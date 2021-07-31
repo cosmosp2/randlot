@@ -209,16 +209,17 @@ for i in range(snum):
 	
 	if a ==4:
 		first_list=nowlist
-		print("이전 회차 : ", data1,"의 당첨번호는 ",first_list,"입니다.")
+		print("\n이전 회차 : ", data1,"의 당첨번호는 ",first_list,"입니다.")
 		
 # 범위 수 적용
+		onums=[]
 		def drange(arg):
 			seldata=arg-5
 			for i in range(10):
 				onum=seldata+i
 				if 46 > onum > 0:
 					add(onum)
-		
+					onums.append(onum)
 		for i in range(3):
 			
 			drange(data2)
@@ -227,6 +228,8 @@ for i in range(snum):
 			drange(data5)
 			drange(data6)
 			drange(data7)
+
+			# 홀짝 분석
 
 			h=0
 			z=0
@@ -268,6 +271,7 @@ for i in range(snum):
 					if sel%2 == 1:
 						add(sel)
 			
+			# 소수 분석 
 			sosuc=set(nowlist) & set(primes)
 			
 			if len(sosuc) > 3:
@@ -282,7 +286,7 @@ for i in range(snum):
 					c=primes.count(sel)
 					if c == 1:
 						add(sel)
-
+			# 번호합 분석
 			hap=data2+data3+data4+data5+data6+data7
 			if hap > 128 :
 				for i in range(22):
@@ -303,12 +307,27 @@ for i in range(snum):
 
 	dnotlist=list(dnot)
 	
-	for i in range(len(dnotlist)):
-		dnot_num=dnotlist[i]
-	
-		dnot_dict[dnot_num]=dnot_dict[dnot_num]+1
-	
-		add(dnot_num)
+	for i in range(2):
+	 
+		for i in range(len(dnotlist)):
+			dnot_num=dnotlist[i]
+		
+			dnot_dict[dnot_num]=dnot_dict[dnot_num]+1
+		
+			add(dnot_num)
+
+
+onums_dict={}
+for i in range(45):
+	ia=i+1
+	if ia in onums:
+		count_ia=onums.count(ia)
+		onums_dict[ia]=count_ia
+
+sorted_onums=sorted(onums_dict.items(), key=operator.itemgetter(1), reverse=True)
+
+print("\n범위수 목록" ,sorted_onums)
+
 
 # 프린트
 print("\n기본 분석 현황")
@@ -316,42 +335,41 @@ if h > 3  :
 	print("이전회차는 홀수가 더 많았습니다.")
 
 if z > 3:
-	print("이전회차는 짝수가 더 많았습니다.")
+	print("\n이전회차는 짝수가 더 많았습니다.")
 	
 if z == 3:
-	print("이전 회차는 홀짝이 공동 출현 했습니다.")
+	print("\n이전 회차는 홀짝이 공동 출현 했습니다.")
 
-print("소수 출현 횟수 :", len(sosuc), sosuc)
+print("\n소수 출현 횟수 :", len(sosuc), sosuc)
 
 if len(sosuc) == 3:
-	print("소수와 비소수가 공동 출현 했습니다.")
+	print("\n소수와 비소수가 공동 출현 했습니다.")
 
 
 if len(sosuc) > 3:
-	print("이전 회차는 소수가 더 많이 출현 했었습니다.")
+	print("\n이전 회차는 소수가 더 많이 출현 했었습니다.")
 	
 if len(sosuc) < 3:
-	print("이전 회차는 소수가 더 적게 출현 했습니다.")
+	print("\n이전 회차는 소수가 더 적게 출현 했습니다.")
 	
 	
 if hap > 128 :
-	print("이전회차는 고저값이 높습니다.")
+	print("\n이전회차는 고저값이 높습니다.")
 	
 if hap < 128 :
-	print("이전회차는 고저값이 낮습니다.")
+	print("\n이전회차는 고저값이 낮습니다.")
 	
 
 dnots=sorted(dnot_dict.items(), key=operator.itemgetter(1), reverse=True )
-print("미출현 번호 목록 (내림차순)\n",dnots)
+print("\n미출현 번호 목록 (내림차순)\n",dnots)
 
 dnots_list=[]
 for i in range(45):
 	ia=dnots[i]
 	ia=ia[0]
 	dnots_list.append(ia)
-dnots_first=dnots_list[0:15]
-dnots_second=dnots_list[16:31]
-dnots_third=dnots_list[32:46]
+dnots_favorit=dnots_list[0:22]
+
 
 dnots_favorit=[]
 for item in range(23):
@@ -362,7 +380,7 @@ for item in range(23):
 # 양력 , 음력 변수를 도입
 
 if int(date) > 0:
-	print("날짜 적용이 되었습니다.")
+	print("\n날짜 적용이 되었습니다.")
 	print("양력 :", date[0],date[1],"월",date[2],date[3],"일")
 	print("음력 :", date[4],date[5],"월",date[6],date[7],"일")
 
@@ -381,7 +399,7 @@ if int(date) > 0:
 			add(choice)
 			
 
-print("사전 조합 개수 자동 설정... 총 ",avera,"개로 계산됨.")
+print("\n사전 조합 개수 자동 설정... 총 ",avera,"개로 계산됨.")
 
 
 		
@@ -429,8 +447,6 @@ sort_of_ranlists_dict=sorted(ranlists_dict.items(), key=operator.itemgetter(1), 
 # 기초 난수 평준화 및 재작성
 
 nums=0
-
-
 nums=int(nums/45/8)
 
 ptn=[3,2,1,0,1,2,3,3,2,1,0,1,2,3,3,2,1,0,1,2,3,3,2,1,0,1,2,3,3,2,1,0,1,2,3,3,2,1,0,1,2,3,3,2,1]
@@ -659,21 +675,34 @@ rcns=[]
 not_list=list(range(1,46))
 print("\n추천 번호 출력")
 
-
-
 # 번호 뽑기
 
 for i in range(amount):
 	selnice=random.randint(0,5)
 	chk_dnots_rcs=0
 	sel_rc=random.choice(rcs)
+	sel_round_num=random.choice(onums)
+	sel_round_num2=random.choice(onums)
+
 	while True:
-		if 1 < len(set(sel_rc) & set(favorit_list)):
-			if 1 < len(set(sel_rc) & set(dnots_first)) :
-				if 1 < len(set(sel_rc) & set(dnots_second)):
-					if 0 < len(set(sel_rc) & set(dnots_third)):
-						rc=sel_rc
-						break
+		if 0 < len(set(sel_rc) & set(favorit_list)):
+			if 2 < len(set(sel_rc) & set(dnots_favorit)) :
+				if 1 < len(set(sel_rc) & set(computed_favorit_list)):
+					if sel_round_num in sel_rc:
+						if sel_round_num2 in sel_rc:
+							if half ==0:
+								if len(not_list) > 1:
+									if 0 < len(set(sel_rc) & set(not_list)):
+											rc=sel_rc
+											break
+								else:
+									rc=sel_rc
+									break
+							if half == 1:
+								
+								rc=sel_rc
+								break
+						
 		sel_rc=random.choice(rcs)
 		
 
@@ -691,11 +720,17 @@ for i in range(amount):
 
 	if rc in not_list:
 		not_list.remove(i)
+	
+	def sel_for_rc():
+		sel=random.choice(rc)
+		if sel == 0:
+			sel_for_rc()
+		return sel
 
 	if half == 1:
-		for i in range(3):
-			sel=random.choice(rc)
-			rc.remove(sel)
+		for i in range(2):
+
+			rc.remove(sel_for_rc())
 			rc.append(0)
 			
 	if test =="test":
@@ -757,20 +792,12 @@ if test =="test":
 			a6=a6+1
 	print("전체 출력된 추천 리스트", len(rcns),"개 중... 3개 적중 :",a3," 4개 적중 :",a4,"  5개 적중 :",a5," 6개 적중 :",a6)
 
-	chk_dnots_list=set(dnots_first) & set(after_list)
-	chk_dnots_list2=set(dnots_second) & set(after_list)
-	chk_dnots_list3=set(dnots_third) & set(after_list)
-
-	print("\n미출현 번호 첫째 구역 출현 :",len(chk_dnots_list),chk_dnots_list)
-	print("미출현 번호 둘째 구역 출현 :",len(chk_dnots_list2),chk_dnots_list2)
-	print("미출현 번호 셋째 구역 출현 :",len(chk_dnots_list3),chk_dnots_list3)
-
-
 
 
 etime=time.time()
 proc_time=etime-stime
+print("비출현 번호 : ", not_list)
+
 print("\n연산에 걸린 총 시간은", int(proc_time) , "초 입니다.")
 
-print("비출현 번호 : ", not_list)
 
