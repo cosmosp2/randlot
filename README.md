@@ -29,8 +29,9 @@ python3, fonts-nanum, python3-openpyxl, gnumeric, python3-korean_lunar_calendar,
 	
 ## 업데이트 사항 
 
-1. 평준화 제거
-2. 미출현 번호 출현 구역 기반으로 추천 번호 획득
+1. 뽑기에 범위수 반영 
+2. 주석 업그레이드
+3. 반자동 기본 4개 제공으로 변경
 
 ## 우분투 이거나 apt-get 사용의 경우 의존성 설치
 
