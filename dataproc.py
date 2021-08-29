@@ -34,6 +34,7 @@ import operator
 import pandas as pd
 from random import shuffle
 from openpyxl import load_workbook
+import collections
 import warnings
 
 
@@ -76,86 +77,26 @@ for i in range(2,n+1):
 		for j in range(2*i, n+1, i):
 			a[j] = False
 
-# 기초 난수 설계  
+# 기초 난수 설계
+
+
+ranlists=[]
+
+for i in range(2):
+	for i in range(45):
+		ia=i+1
+		ranlists.append(ia)
+for i in range(cc):
+ 
+
+	shuffle(ranlists)
 	
-def make_nums(cnum):
-	list_name=[]
-	for i in range(2):
-		
-		for i in range(45):
-			ai=i+1
-			for i in range(3):
-				
-				list_name.append(ai)
-			if ai < cnum:
-				chai=cnum-ai
-				chai=40-chai
-				for i in range(chai):
-					list_name.append(ai)
-					
-			if ai > cnum:
-				chai=ai-cnum
-				chai=40-chai
-				for i in range(chai):
-					list_name.append(ai)
-
-			if ai == cnum:
-				for i in range(40):
-					list_name.append(ai)
-	return list_name
-
-
-first=make_nums(1)
-
-for i in range(3):
-	shuffle(first)
-
-second=make_nums(13)
-
-for i in range(3):
-	shuffle(second)
-third=make_nums(17)
-
-for i in range(3):
-	shuffle(third)
-fourth=make_nums(27)
-
-for i in range(3):
-	shuffle(fourth)
-
-five=make_nums(34)
-
-for i in range(3):
-	shuffle(five)
-
-six=make_nums(43)
-
-for i in range(3):
-	shuffle(six)
-
 
 
 # 추가 적용 함수 
-
 def add(num):
-	for i in range(2):
-		
-		first.append(num)
-		second.append(num)
-		third.append(num)
-		fourth.append(num)
-		five.append(num)
-		six.append(num)
+	ranlists.append(num)
 
-# 제외 적용 함수 
-
-def dels(num):
-	first.remove(num)
-	second.remove(num)
-	third.remove(num)
-	fourth.remove(num)
-	five.remove(num)
-	six.remove(num)
 	
 dnotlist=olist
 dnot_dict={}
@@ -200,6 +141,10 @@ for i in range(snum):
 	
 	nowlist=[data2]+[data3]+[data4]+[data5]+[data6]+[data7]
 	
+	for i in range(6):
+		ia=nowlist[i]
+		ranlists.append(ia)
+
 	for i in range(5):
 		ia=i+1
 		nn=nowlist[ia]
@@ -359,6 +304,7 @@ if hap > 128 :
 if hap < 128 :
 	print("\n이전회차는 고저값이 낮습니다.")
 	
+	
 
 dnots=sorted(dnot_dict.items(), key=operator.itemgetter(1), reverse=True )
 print("\n미출현 번호 목록 (내림차순)\n",dnots)
@@ -403,39 +349,9 @@ print("\n사전 조합 개수 자동 설정... 총 ",avera,"개로 계산됨.")
 
 
 		
-for i in range(cc*2):
-	shuffle(first)
-
-for i in range(cc*2):
-	shuffle(second)
-
-for i in range(cc*2):
-	shuffle(third)
-
-for i in range(cc*2):
-	shuffle(fourth)
-
-for i in range(cc*2):
-	shuffle(five)
-
-for i in range(cc*2):
-	shuffle(six)
 
 # 기초 확률 순위 계산
 
-ranlists=first+second+third+fourth+five+six
-
-with open('/tmp/randlot/nums', 'r') as f:
-	list_file = f.readlines()
-alist = [line.rstrip('\n') for line in list_file] 
-for i in range(len(alist)):
-	ai=alist[i]
-	ai=ai.split()
-	ai=list(map(int, ai))
-	ais=ai[1]/7
-	ais=int(ais)
-	for i in range(ais):
-		ranlists.append(ai[0])
 
 ranlists_dict={}
 for i in range(45):
@@ -444,22 +360,10 @@ for i in range(45):
 	ranlists_dict[ai]=aic
 sort_of_ranlists_dict=sorted(ranlists_dict.items(), key=operator.itemgetter(1), reverse=True )
 
-# 기초 난수 평준화 및 재작성
-
-nums=0
-nums=int(nums/45/8)
-
-ptn=[3,2,1,0,1,2,3,3,2,1,0,1,2,3,3,2,1,0,1,2,3,3,2,1,0,1,2,3,3,2,1,0,1,2,3,3,2,1,0,1,2,3,3,2,1]
-for i in range(45):
-	ia=i+1
-	selptn=ptn[i]
-	for item in range(selptn*nums):
-		ranlists.append(ia)
-
 
 # 본격 사전 조합 생성 함수 
 
-for i in range(2):
+for i in range(3):
 	shuffle(ranlists)
 
 def make_num():
@@ -481,6 +385,9 @@ def make_mlist():
 		sel_num=miner_nums[i]	
 		for i in range(2):
 			ranlists.append(sel_num)
+	mlist=list(set(mlist))
+	if len(mlist) < 6:
+		make_mlist()
 	return mlist
 	
 
@@ -491,7 +398,7 @@ proc_avera=int(avera/cc)
 numproc=range(0,cc)
 print("\n기초 순위\n",sort_of_ranlists_dict)
 if cc > 1:
-	print("\n귀하의 PC의 코어가",cc,"개 로 확인 되었습니다. 멀티프로세싱을 활용 하여 연산 합니다.")
+	print("\n귀하의 PC의 코어가",cc,"개 로 확인 되었습니다. 멀티프로세싱을 활용 하여 연산 합니다...\n")
 	ac=int(cc/2)
 else:
 	ac=1
@@ -516,9 +423,12 @@ if __name__ == '__main__':
 	pool.close()
 	pool.join()
 
+
+print("다중연산이 끝나고 정리를 시작합니다...")
+
 with open('/tmp/randlot_averas', 'r') as f:
 	list_file = f.readlines()
-alist = [line.rstrip('\n') for line in list_file] 
+alist = [line.rstrip('\n') for line in list_file]
 
 rcs=[]
 for i in range(len(alist)):
@@ -530,10 +440,12 @@ for i in range(len(alist)):
 	if len(chk_ai) == 6:
 		rcs.append(ai)
 
+
+
+
 for i in range(cc):
 	
 	shuffle(rcs)
-print("\n실제 연산된 리스트 개수 :", len(rcs))
 
 
 # 연산된 난수 총 순위
@@ -603,8 +515,9 @@ for i in range(23):
 
 rate1=0
 
-
 if test == "test":
+	print("\n테스트가 옵션에 적용 되어 있어 테스트 연산을 시작 합니다...")
+
 	after_num=nnum+1
 	load_wb = load_workbook("/tmp/randlot_after_data.xlsx", data_only=True)
 	sheet=load_wb.active
@@ -673,41 +586,101 @@ three=[]
 brc=nrc=random.choice(rcs)
 rcns=[]
 not_list=list(range(1,46))
+
+
+# 중복 번호 찾아내기  (match point)
+
+print("\nmatch 포인트를 연산 합니다...")
+
+
+
+os.system('cat /tmp/randlot_averas |sort |uniq -c -d |grep "4 " > /tmp/randlot_matchs')
+os.system('cat /tmp/randlot_averas |sort |uniq -c -d |grep "3 " >> /tmp/randlot_matchs')
+os.system('cat /tmp/randlot_averas |sort |uniq -c -d |grep "2 " >> /tmp/randlot_matchs')
+
+os.system('sed -i "s/3 //g" /tmp/randlot_matchs')
+os.system('sed -i "s/4 //g" /tmp/randlot_matchs')
+os.system('sed -i "s/2 //g" /tmp/randlot_matchs')
+
+
+
+with open('/tmp/randlot_matchs', 'r') as f:
+	list_file = f.readlines()
+alist = list([line.rstrip('\n') for line in list_file]) 
+
+
+matchs=[]
+for i in range(len(alist)):
+	ai=alist[i]
+	dot=','
+	ai=ai.split(dot)
+	ai=list(map(int, ai))
+	chk_ai=list(set(ai))
+	if len(chk_ai) == 6:
+		for i in range(6):
+			ia=ai[i]
+			matchs.append(ia)
+
+
+
+print("\n매치 포인트 연산 내림차순")
+
+counter_matchs=collections.Counter(matchs)
+print(counter_matchs.most_common(),"\n")
+
+matchs_list=counter_matchs.most_common(23)
+
+matchs_favorit_list=[]
+for i in range(len(matchs_list)):
+	ia=matchs_list[i]
+	num=ia[0]
+	matchs_favorit_list.append(num)
+ 
+
+print("\n",matchs_favorit_list)
+
 print("\n추천 번호 출력")
 
-# 번호 뽑기
 
+# 번호 뽑기
+oldlist=[]
+rcsd=[]
 for i in range(amount):
+	if len(not_list) < 1 :
+		not_list=list(range(1,46))
+		
 	selnice=random.randint(0,5)
 	chk_dnots_rcs=0
 	sel_rc=random.choice(rcs)
-	sel_round_num=random.choice(onums)
-	sel_round_num2=random.choice(onums)
+
 
 	while True:
 		if 0 < len(set(sel_rc) & set(favorit_list)):
-			if 2 < len(set(sel_rc) & set(dnots_favorit)) :
-				if 1 < len(set(sel_rc) & set(computed_favorit_list)):
-					if sel_round_num in sel_rc:
-						if sel_round_num2 in sel_rc:
-							if half ==0:
-								if len(not_list) > 1:
-									if 0 < len(set(sel_rc) & set(not_list)):
+			if 0 < len(set(sel_rc) & set(dnots_favorit)) :
+				if 0 < len(set(sel_rc) & set(computed_favorit_list)):
+						if 0 < len(set(sel_rc) & set(onums)):
+							if 0 < len(set(sel_rc) & set(not_list)):
+								if 0 < len(set(sel_rc) & set(matchs_favorit_list)):
+
+									if len(oldlist) > 11:
+										if 0 < len(set(sel_rc) & set(oldlist)):
 											rc=sel_rc
 											break
-								else:
-									rc=sel_rc
-									break
-							if half == 1:
-								
-								rc=sel_rc
-								break
-						
+									else:
+										rc=sel_rc
+										break
+							
 		sel_rc=random.choice(rcs)
 		
+	for i in range(6):
+		rcsd.append(rc[i])
+		oldlist.append(rc[i])
 
 	rc.sort()
-	
+	oldlist=list(set(oldlist))
+	if len(oldlist) > 23:
+		oldlist=[]
+
 	miner_nums=list(set(olist)-set(rc))
 	for i in range(len(miner_nums)):
 		sel_num=miner_nums[i]	
@@ -724,6 +697,7 @@ for i in range(amount):
 	def sel_for_rc():
 		sel=random.choice(rc)
 		if sel == 0:
+
 			sel_for_rc()
 		return sel
 
@@ -744,17 +718,27 @@ for i in range(amount):
 
 # 테스트 출력
 
+os.system('cat /dev/null > /tmp/randlot_chklist')
+
+
 if test =="test":
 	check_top_nums=set(after_list) & set(favorit_list)
 
 	per_fav=len(check_top_nums)/23 *100
-	print("\n기초 확률 상위 리스트 적중 확률 :",per_fav,"%")
+	print("\n기초 확률 상위 적중 확률 :",per_fav,"%")
 	print(check_top_nums)
 
 	check_top_nums=set(after_list) & set(computed_favorit_list)
 	per_fav=len(check_top_nums)/23 *100
-	print("\n연산 상위 리스트 적중 확률 :",per_fav,"%")
+	print("\n연산 상위 적중 확률 :",per_fav,"%")
 	print(check_top_nums)
+
+	check_top_nums=set(after_list) & set(matchs_favorit_list)
+	per_fav=len(check_top_nums)/23 *100
+	print("\n매치 포인트 적중 확률 :",per_fav,"%")
+	print(check_top_nums)
+
+
 	a3=0
 	a4=0
 	a5=0
@@ -762,12 +746,16 @@ if test =="test":
 	for i in range(len(rcs)):
 		rcs_list = rcs[i]
 		chk_rcs_list=set(rcs_list) & set(after_list)
+		
 		if len(chk_rcs_list) == 3:
 			a3=a3+1
 		if len(chk_rcs_list) == 4:
 			a4=a4+1
 		if len(chk_rcs_list) == 5:
 			a5=a5+1	
+			chkdata=str(rcs_list)
+			f = open('/tmp/randlot_chklist', 'a')
+			f.write(str(chkdata)+"\n")
 		if len(chk_rcs_list) == 6:
 			a6=a6+1
 	print("전체 연산된 리스트", len(rcs),"가지 경우 중... 3개 적중 :",a3," 4개 적중 :",a4,"  5개 적중 :",a5," 6개 적중 :",a6)
@@ -782,6 +770,7 @@ if test =="test":
 	for i in range(len(rcns)):
 		rcs_list=rcns[i]
 		chk_rcs_list=set(rcs_list) & set(after_list)
+		
 		if len(chk_rcs_list) == 3:
 			a3=a3+1
 		if len(chk_rcs_list) == 4:
@@ -794,10 +783,14 @@ if test =="test":
 
 
 
+
 etime=time.time()
 proc_time=etime-stime
-print("비출현 번호 : ", not_list)
+
+not_lists= set(olist) - set(rcsd)
+
+
+print("비출현 번호 : ", list(not_lists))
 
 print("\n연산에 걸린 총 시간은", int(proc_time) , "초 입니다.")
-
 

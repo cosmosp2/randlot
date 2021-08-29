@@ -44,7 +44,11 @@ if [[ -s /tmp/randlot_after_data.xlsx ]]; then
 fi
 
 
-Version=0.1-28
+if [[ -s /tmp/randlot_averas ]]; then
+	cat /dev/null > /tmp/randlot_averas
+fi
+
+Version=0.1-29
 
 if [[ $1 = "--help" ]] || [[ $1 = "-h" ]]; then
 	echo "randlot $Version
@@ -162,7 +166,7 @@ if [[ ! -r $1 ]]; then
 
 	if [[ ! "$avera" ]]; then
 		echo "아무것도 입력 하지 않았음으로 자동으로 30500번 으로 지정 합니다."
-		avera=30500
+		avera=305000
 	fi
 	}
 	averachk
@@ -185,7 +189,6 @@ if [[ ! -r $1 ]]; then
 		
 		time=$time
 	fi
-
 
 
 	if [[ ! "$time" ]]; then
@@ -297,9 +300,7 @@ done
 
 python3 dataproc.py $nnum $bnum $amount $avera $half $time $camel $test
 
-if [[ -s /tmp/randlot_averas ]]; then
-	cat /dev/null > /tmp/randlot_averas
-fi
+
 
 
 exit 0
