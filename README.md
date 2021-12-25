@@ -29,8 +29,8 @@ python3, fonts-nanum, python3-openpyxl, gnumeric, python3-korean_lunar_calendar,
 	
 ## 업데이트 사항 
 
-	1. 버그 수정 및 최적화 
-	2. 매치 포인트 연산 도입
+	1. 랜덤 출력 도입
+
 
 ## 우분투 이거나 apt-get 사용의 경우 의존성 설치
 
