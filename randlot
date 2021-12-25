@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/bash
 
 # COSMOS Project.2015 https://cosmosproject2015.tistory.com/ 
 # cosmosproject15@gmail.com
@@ -48,7 +48,7 @@ if [[ -s /tmp/randlot_averas ]]; then
 	cat /dev/null > /tmp/randlot_averas
 fi
 
-Version=0.1-29
+Version=0.1-3
 
 if [[ $1 = "--help" ]] || [[ $1 = "-h" ]]; then
 	echo "randlot $Version
@@ -248,7 +248,7 @@ if [[ ! -r $1 ]]; then
 결과추출개수: $amount
 연산회수: $avera
 추첨날짜(05090417): $time
-반자동(1/0): $half
+반자동(0/1/2/3): $half
 테스트(test/notest): $test" > option.conf
 		echo "'option.conf' 에 변경 되어 저장 되었습니다.
 "

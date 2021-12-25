@@ -25,17 +25,14 @@
 import multiprocessing
 import time
 import random
-import re
 import sys
-import subprocess
-import linecache
 import os
 import operator
-import pandas as pd
-from random import shuffle
+from random import Random, randint, shuffle
 from openpyxl import load_workbook
 import collections
 import warnings
+from datetime import datetime
 
 
 nnum=int(sys.argv[1])
@@ -82,22 +79,47 @@ for i in range(2,n+1):
 
 ranlists=[]
 
+one=[]
+two=[]
+three=[]
+four=[]
+five=[]
+six=[]
 for i in range(2):
 	for i in range(45):
 		ia=i+1
-		ranlists.append(ia)
-for i in range(cc):
- 
+		one.append(ia)
+		two.append(ia)
+		three.append(ia)
+		four.append(ia)
+		five.append(ia)
+		six.append(ia)
 
-	shuffle(ranlists)
-	
+def shufle_nums(cc):
+	shuffle(one)
+	shuffle(two)
+	shuffle(three)
+	shuffle(four)
+	shuffle(five)
+	shuffle(six)
 
 
 # 추가 적용 함수 
 def add(num):
-	ranlists.append(num)
+	if num in range(1,41):
+		one.append(num)
+	if num in range(1,42):
+		two.append(num)
+	if num in range(1,43):
+		three.append(num)
+	if num in range(1,44):
+		four.append(num)
+	if num in range(1,45):
+		five.append(num)
+	if num in range(1,46):
+		six.append(num)
+	shufle_nums(cc)
 
-	
 dnotlist=olist
 dnot_dict={}
 
@@ -261,7 +283,6 @@ for i in range(snum):
 		
 			add(dnot_num)
 
-
 onums_dict={}
 for i in range(45):
 	ia=i+1
@@ -325,33 +346,57 @@ for item in range(23):
 
 # 양력 , 음력 변수를 도입
 
+def compute_date(datecamel):
+	
+	camel=datecamel
+	sik="+-*"
+	for i in range(2):
+		math_lenth=random.randint(1,9)
+		if math_lenth == 1:
+			camel_math=random.choice(camel)
+		if math_lenth == 2:
+			camel_math=random.choice(camel)+random.choice(camel)
+		if math_lenth == 3:
+			camel_math=random.choice(camel)+sik[random.randint(0,2)]+random.choice(camel)
+		if math_lenth == 4:
+			camel_math=random.choice(camel)+random.choice(camel)+sik[random.randint(0,2)]+random.choice(camel)
+		if math_lenth == 5:
+			camel_math=random.choice(camel)+random.choice(camel)+sik[random.randint(0,2)]+random.choice(camel)+random.choice(camel)
+		if math_lenth == 6:
+			camel_math=random.choice(camel)+sik[random.randint(0,2)]+random.choice(camel)+sik[random.randint(0,2)]+random.choice(camel)
+		if math_lenth == 7:
+			camel_math=random.choice(camel)+random.choice(camel)+sik[random.randint(0,2)]+random.choice(camel)+sik[random.randint(0,2)]+random.choice(camel)
+		if math_lenth == 8:
+			camel_math=random.choice(camel)+random.choice(camel)+sik[random.randint(0,2)]+random.choice(camel)+random.choice(camel)+sik[random.randint(0,2)]+random.choice(camel)
+		if math_lenth == 9:
+			camel_math=random.choice(camel)+sik[random.randint(0,2)]+random.choice(camel)+random.choice(camel)+sik[random.randint(0,2)]+random.choice(camel)
+		math_answer=eval(str(camel_math))
+		if 0 < int(math_answer) < 46:
+			add(int(math_answer))
+now = datetime.now()
+current_year = now.strftime("%Y")
 if int(date) > 0:
-	print("\n날짜 적용이 되었습니다.")
+	print("\n날짜 적용이 되었습니다.\n당 연도:",current_year)
+	
 	print("양력 :", date[0],date[1],"월",date[2],date[3],"일")
 	print("음력 :", date[4],date[5],"월",date[6],date[7],"일")
 
-	for i in range(135):
-		choice_from_date=random.randint(0,7)
-		if choice_from_date > 0:
-			choice_1num=date[choice_from_date]
-			choice=0
-			
-			while choice == 0:
-				choice_lot_num=random.randint(1,45)
-				choice_lot_num=choice_lot_num
-				cln_str=str(choice_lot_num)
-				for cln_str in str(choice_1num):
-					choice=choice_lot_num
-			add(choice)
+	
+	datecamel=list(set(date)|set(current_year))
+	datecamel.remove('0')
+	print("\n시간 숫자를 연산합니다.\n시간 숫자: ",datecamel)
+	compute_date(datecamel)
+
+	
 			
 
 print("\n사전 조합 개수 자동 설정... 총 ",avera,"개로 계산됨.")
 
 
-		
 
 # 기초 확률 순위 계산
 
+ranlists=one+two+three+four+five+six
 
 ranlists_dict={}
 for i in range(45):
@@ -360,25 +405,43 @@ for i in range(45):
 	ranlists_dict[ai]=aic
 sort_of_ranlists_dict=sorted(ranlists_dict.items(), key=operator.itemgetter(1), reverse=True )
 
+favorit_list=[]
+for i in range(23):
+	favorit=sort_of_ranlists_dict[i]
+	favorit=favorit[0]
+	favorit_list.append(favorit)
 
 # 본격 사전 조합 생성 함수 
 
 for i in range(3):
 	shuffle(ranlists)
+def make_num(n):
+	if n == 0:
+		r=random.choice(one)
 
-def make_num():
-	r=random.choice(ranlists)
+	if n == 1:
+		r=random.choice(two)
+	if n == 2:
+		r=random.choice(three)
+
+	if n == 3:
+		r=random.choice(four)
+
+	if n == 4:
+		r=random.choice(five)
+
+	if n == 5:
+		r=random.choice(six)
+
 	if r in mlist:
-		make_num()		
-	for i in range(1):
-		ranlists.append(r)	
+		make_num(n)		
 	return r
 
 def make_mlist():
 	global mlist
 	mlist=[]
 	for i in range(6):
-		r=make_num()
+		r=make_num(i)
 		mlist.append(r)
 	miner_nums=list(set(olist)-set(mlist))
 	for i in range(len(miner_nums)):
@@ -388,6 +451,12 @@ def make_mlist():
 	mlist=list(set(mlist))
 	if len(mlist) < 6:
 		make_mlist()
+	if len(set(mlist) & set(dnots_favorit)) > 0:
+		pass
+	else:
+		make_mlist()
+
+
 	return mlist
 	
 
@@ -405,40 +474,26 @@ else:
 
 # 멀티 프로세싱 기반의 연산 작업 시작
 
-os.system('cat /dev/null > /tmp/randlot_averas')
 def proc_make(numproc):
-	file=open('/tmp/randlot_averas' , 'a')
+	mlists=[]
 	for i in range(proc_avera):
 		mlist=make_mlist()
 		mlist.sort()
-		data=str(mlist)
-		data=data.strip('[]')
-		file.write(data+"\n")
-	file.close()
+		mlists.append(mlist)
+	return mlists
 
-if __name__ == '__main__':
-	#멀티 쓰레딩 Pool 사용
-	pool = multiprocessing.Pool(processes=cc) # 현재 시스템에서 사용 할 프로세스 개수
-	pool.map(proc_make, numproc)
-	pool.close()
-	pool.join()
-
-
-print("다중연산이 끝나고 정리를 시작합니다...")
-
-with open('/tmp/randlot_averas', 'r') as f:
-	list_file = f.readlines()
-alist = [line.rstrip('\n') for line in list_file]
+#멀티 쓰레딩 Pool 사용
+pool = multiprocessing.Pool(processes=cc) # 현재 시스템에서 사용 할 프로세스 개수
+rcs_computes=pool.map(proc_make, numproc)
 
 rcs=[]
-for i in range(len(alist)):
-	ai=alist[i]
-	dot=','
-	ai=ai.split(dot)
-	ai=list(map(int, ai))
-	chk_ai=list(set(ai))
-	if len(chk_ai) == 6:
-		rcs.append(ai)
+for item in range(len(rcs_computes)):
+	rcs=rcs+rcs_computes[item]
+
+
+
+
+print("다중연산이 끝나고 정리를 시작합니다...\n실제 계산된 연산수:",len(rcs))
 
 
 
@@ -465,11 +520,6 @@ for i in range(45):
 sort_of_coumputed_list=sorted(ranlists_dict.items(), key=operator.itemgetter(1), reverse=True )
 
 
-favorit_list=[]
-for i in range(23):
-	favorit=sort_of_ranlists_dict[i]
-	favorit=favorit[0]
-	favorit_list.append(favorit)
 
 low_list=[]
 for i in range(22):
@@ -538,7 +588,6 @@ if test == "test":
 		data=load_ws[datasel3].value
 		data3=int(data)
 
-
 		datasel4="P"+str(a)
 		data=load_ws[datasel4].value
 		data4=int(data)
@@ -575,7 +624,6 @@ for i in range(7):
 	top_sort_of_coumputed_list.append(li)
 
 
-hists=[]
 
 rate_per=0
 hist=[]
@@ -583,52 +631,106 @@ dnot_hist_list=olist
 firsts=[]
 lasts=[]
 three=[]
-brc=nrc=random.choice(rcs)
 rcns=[]
 not_list=list(range(1,46))
 
 
 # 중복 번호 찾아내기  (match point)
 
-print("\nmatch 포인트를 연산 합니다...")
-
-
-
-os.system('cat /tmp/randlot_averas |sort |uniq -c -d |grep "4 " > /tmp/randlot_matchs')
-os.system('cat /tmp/randlot_averas |sort |uniq -c -d |grep "3 " >> /tmp/randlot_matchs')
-os.system('cat /tmp/randlot_averas |sort |uniq -c -d |grep "2 " >> /tmp/randlot_matchs')
-
-os.system('sed -i "s/3 //g" /tmp/randlot_matchs')
-os.system('sed -i "s/4 //g" /tmp/randlot_matchs')
-os.system('sed -i "s/2 //g" /tmp/randlot_matchs')
-
-
-
-with open('/tmp/randlot_matchs', 'r') as f:
-	list_file = f.readlines()
-alist = list([line.rstrip('\n') for line in list_file]) 
-
+sector1=[]
+sector2=[]
+sector3=[]
+sector4=[]
+sector5=[]
+sector6=[]
 
 matchs=[]
-for i in range(len(alist)):
-	ai=alist[i]
-	dot=','
-	ai=ai.split(dot)
-	ai=list(map(int, ai))
-	chk_ai=list(set(ai))
-	if len(chk_ai) == 6:
-		for i in range(6):
-			ia=ai[i]
-			matchs.append(ia)
-
-
+for item in rcs:
+	for i in range(6):
+		ia=item[i]
+		matchs.append(ia)
+		if i == 0:
+			sector1.append(ia) 
+		if i == 1:
+			sector2.append(ia) 
+		if i == 2:
+			sector3.append(ia) 
+		if i == 3:
+			sector4.append(ia) 
+		if i == 4:
+			sector5.append(ia) 
+		if i == 5:
+			sector6.append(ia) 
 
 print("\n매치 포인트 연산 내림차순")
 
 counter_matchs=collections.Counter(matchs)
-print(counter_matchs.most_common(),"\n")
 
 matchs_list=counter_matchs.most_common(23)
+
+print(matchs_list)
+
+sectors={}
+s1=collections.Counter(sector1)
+s1s=s1.most_common(23)
+
+s1_sorted=[]
+for item in s1s:
+	i=item[0]
+	s1_sorted.append(i)
+print("\n섹터1 정렬:",s1_sorted)
+sectors[0]=s1_sorted
+
+s1=collections.Counter(sector2)
+s1s=s1.most_common(23)
+
+s1_sorted=[]
+for item in s1s:
+	i=item[0]
+	s1_sorted.append(i)
+print("\n섹터2 정렬:",s1_sorted)
+sectors[1]=s1_sorted
+
+s1=collections.Counter(sector3)
+s1s=s1.most_common(23)
+
+s1_sorted=[]
+for item in s1s:
+	i=item[0]
+	s1_sorted.append(i)
+print("\n섹터3 정렬:",s1_sorted)
+sectors[2]=s1_sorted
+
+s1=collections.Counter(sector4)
+s1s=s1.most_common(23)
+
+s1_sorted=[]
+for item in s1s:
+	i=item[0]
+	s1_sorted.append(i)
+print("\n섹터4 정렬:",s1_sorted)
+sectors[3]=s1_sorted
+
+s1=collections.Counter(sector5)
+s1s=s1.most_common(23)
+
+s1_sorted=[]
+for item in s1s:
+	i=item[0]
+	s1_sorted.append(i)
+print("\n섹터5 정렬:",s1_sorted)
+sectors[4]=s1_sorted
+
+s1=collections.Counter(sector6)
+s1s=s1.most_common(23)
+
+s1_sorted=[]
+for item in s1s:
+	i=item[0]
+	s1_sorted.append(i)
+print("\n섹터6 정렬:",s1_sorted)
+sectors[5]=s1_sorted
+
 
 matchs_favorit_list=[]
 for i in range(len(matchs_list)):
@@ -637,89 +739,266 @@ for i in range(len(matchs_list)):
 	matchs_favorit_list.append(num)
  
 
-print("\n",matchs_favorit_list)
-
-print("\n추천 번호 출력")
-
-
 # 번호 뽑기
 oldlist=[]
 rcsd=[]
-for i in range(amount):
-	if len(not_list) < 1 :
-		not_list=list(range(1,46))
-		
-	selnice=random.randint(0,5)
-	chk_dnots_rcs=0
-	sel_rc=random.choice(rcs)
 
+not_dnots_favorit=list(set(olist)-set(dnots_favorit))
+favorit_computed=list(set(favorit_list)&set(computed_favorit_list))
 
-	while True:
-		if 0 < len(set(sel_rc) & set(favorit_list)):
-			if 0 < len(set(sel_rc) & set(dnots_favorit)) :
-				if 0 < len(set(sel_rc) & set(computed_favorit_list)):
-						if 0 < len(set(sel_rc) & set(onums)):
-							if 0 < len(set(sel_rc) & set(not_list)):
-								if 0 < len(set(sel_rc) & set(matchs_favorit_list)):
+not_favorit_list=list(set(not_dnots_favorit)-set(favorit_computed))
 
-									if len(oldlist) > 11:
-										if 0 < len(set(sel_rc) & set(oldlist)):
-											rc=sel_rc
-											break
-									else:
-										rc=sel_rc
-										break
-							
-		sel_rc=random.choice(rcs)
-		
-	for i in range(6):
-		rcsd.append(rc[i])
-		oldlist.append(rc[i])
+favorit_all=list(set(favorit_computed)&set(matchs_favorit_list)&set(dnots_favorit))
+all_favorit_list=list(set(favorit_list+computed_favorit_list+matchs_favorit_list))
+not_all_favorit_list=list(set(olist)-set(all_favorit_list))
+half_favorit_list=list(set(olist)-set(not_favorit_list)-set(favorit_all))
 
-	rc.sort()
-	oldlist=list(set(oldlist))
-	if len(oldlist) > 23:
-		oldlist=[]
+print("\n전체 favorit 일치 넘버모음\n",favorit_all)
 
-	miner_nums=list(set(olist)-set(rc))
-	for i in range(len(miner_nums)):
-		sel_num=miner_nums[i]	
-		
-	brc=rc
-	rcns.append(rc)
-	for i in range(6):
-		if rc[i] in not_list:
-			not_list.remove(rc[i])
+print("favorit 리스트",favorit_all)
+print("not favorit 리스트",not_favorit_list)
+print("half 리스트",half_favorit_list)
 
-	if rc in not_list:
-		not_list.remove(i)
+for item in range(2):
+	shuffle(rcs)
+
+fnum=[]
+lnum=[]
+hists=[]
+for item in range(3):
 	
-	def sel_for_rc():
-		sel=random.choice(rc)
-		if sel == 0:
+	while True:
+		if len(fnum) > 3:
+			fnum.clear()
+		if len(lnum) > 3:
+			lnum.clear()
+		
+		if len(hists) > 22:
+			hists.clear()
+		
 
-			sel_for_rc()
-		return sel
+		brc=random.choice(rcs)
+		rcs.remove(brc)
 
-	if half == 1:
-		for i in range(2):
+		check=0
+		for i in range(6):
+			ia=brc[i]
+			if ia in sectors[i]:
+				check=check+1
+		
+		if check > 2:
+			if 0 < len(set(brc) & set(all_favorit_list)):
+				if 0 < len(set(brc) & set(favorit_list)):
+					if 0 < len(set(brc) & set(dnots_favorit)) :
+						if 0 < len(set(brc) & set(computed_favorit_list)):
+								if 0 < len(set(brc) & set(onums)):
+									if 0 < len(set(brc) & set(not_list)):
+										if 0 < len(set(brc) & set(matchs_favorit_list)):
+											if 0 < len(set(brc) & set(favorit_computed)):
+												if 0 < len(set(brc) & set(not_all_favorit_list)):
+													fnum.append(brc[0])
+													lnum.append(brc[5])
+													hists=hists+brc
+													hists=list(set(hists))
+													break
 
-			rc.remove(sel_for_rc())
-			rc.append(0)
+print("\n추천 번호 출력\n")
+
+hrcsd=[]
+
+def sel_for_rc():
+	selr=random.choice(rcs)
+	sel_type=random.randint(2,3)
+	for item in range(sel_type):
+		shuffle(selr)
+		sel=random.choice(selr)
+		while sel == 0:
+			sel=random.choice(selr)
+		selr.remove(sel)
+		selr.append(0)
+	selr.sort()
+	return selr
+
+	
+
+b_hrc=sel_for_rc()
+
+hists_hrc=[]
+b_hrc=list(set(b_hrc))
+b_hrc.remove(0)
+for item in b_hrc:
+	hists_hrc.append(item)
+ 
+
+
+	
+	
+
+for i in range(amount):
+
+	num_num=i+1
+
+	if half == 3:
+		sel_shalf=[0,1,1,2,2]
+		shalf=random.choice(sel_shalf)
+	if half == 2:
+		sel_shalf=[0,1,1]
+		shalf=random.choice(sel_shalf)
+	if shalf == 0:
+		
+		not_list=list(set(not_list)-set(brc))
+
+		if len(not_list) < 2 :
+			not_list=list(range(1,46))
+		selnice=random.randint(0,5)
+		chk_dnots_rcs=0
+		sel_rc=random.choice(rcs)
+		rcs.remove(sel_rc)
+		if len(fnum) > 5:
+			fnum.clear()
+		if len(lnum) > 5:
+			lnum.clear()
+
+		while True:
+			check=0
+			for i in range(6):
+				ia=sel_rc[i]
+				if ia in sectors[i]:
+					check=check+1
 			
+			if check > 2:
+				
+				if 0 < len(set(sel_rc) & set(all_favorit_list)):
+					if 0 < len(set(sel_rc) & set(favorit_list)):
+						if 0 < len(set(sel_rc) & set(dnots_favorit)) :
+							if 0 < len(set(sel_rc) & set(computed_favorit_list)):
+									if 0 < len(set(sel_rc) & set(onums)):
+										if 1 < len(set(sel_rc) & set(not_list)):
+											if 0 < len(set(sel_rc) & set(matchs_favorit_list)):
+												if 0 < len(set(sel_rc) & set(favorit_computed)):
+													if 1 < len(set(sel_rc) & set(hists)):
+														if 0 < len(set(sel_rc) & set(not_all_favorit_list)):
+															if sel_rc[0] not in fnum:
+																if sel_rc[5] not in lnum:
+																		rc=sel_rc
+																		break
+			sel_rc=random.choice(rcs)
+
+			
+		for i in range(6):
+			rcsd.append(rc[i])
+			oldlist.append(rc[i])
+
+		rc.sort()
+		oldlist=list(set(oldlist))
+		if len(oldlist) > 23:
+			oldlist=[]
+
+		miner_nums=list(set(olist)-set(rc))
+		for i in range(len(miner_nums)):
+			sel_num=miner_nums[i]	
+			
+		brc=rc
+		if len(hists) > 22:
+			hists.clear()
+		hists=hists+rc
+		hists=list(set(hists))
+		hists_hrc=hists_hrc+hists
+		hists_hrc=list(set(hists_hrc))
+
+		
+
+		fnum.append(rc[0])
+		lnum.append(rc[5])
+		rcns.append(rc)
+		for i in range(6):
+			if rc[i] in not_list:
+				not_list.remove(rc[i])
+
+		if rc in not_list:
+			not_list.remove(i)
+		
+
+	if shalf == 1:
+		
+		hrc=sel_for_rc()
+		hnot_list=list(set(olist)-set(hrcsd))
+		if len(hnot_list) < 1:
+			hnot_list=olist
+		
+		if len(hists_hrc) > 23:
+			hists_hrc=sel_for_rc()
+	
+		b_hrc_sel_plus=b_hrc
+		
+		ia=0
+		for item in b_hrc_sel_plus:
+			i=item+1
+			if i < 46:
+				b_hrc_sel_plus[ia]=i
+			ia=ia+1
+		b_hrc_fnum=b_hrc
+		b_hrc_fnum.sort()
+		b_hrc_fnum=b_hrc_fnum[0]
+
+		 
+
+		while True:
+			if len(hrc) == 6:
+				if 0 < len(set(hrc) & set(all_favorit_list)):
+					if 0 < len(set(hrc) & set(favorit_list)):
+						if 0 < len(set(hrc) & set(dnots_favorit)) :
+							if 0 < len(set(hrc) & set(computed_favorit_list)):
+								if 0 < len(set(hrc) & set(onums)):
+									if 0 < len(set(hrc) & set(matchs_favorit_list)):
+										if 0 < len(set(hrc) & set(favorit_computed)):
+											if 0 < len(set(hrc) & set(not_all_favorit_list)):
+												if 0 < len(set(hrc) & set(hnot_list)):
+													if 0 < len(set(hrc) & set(hists_hrc)):
+														if 0 < len(set(hrc) & set(b_hrc_sel_plus)):
+															if 0 < len(set(hrc) & set(b_hrc)):
+
+																fnum_chk_hrc=list(set(hrc))
+																fnum_chk_hrc.remove(0)
+																fnum_chk_hrc.sort()
+																fnum_chk_hrc=fnum_chk_hrc[0]
+																if fnum_chk_hrc != b_hrc_fnum:
+																	rc=hrc
+																	rc.sort()
+																	b_hrc=hrc
+																	b_hrc=list(set(b_hrc))
+																	b_hrc.remove(0)
+																	b_hrc.sort()
+																
+																	for item in hrc:
+																		if item != 0:
+																			hists_hrc.append(item)
+																			hists.append(item)
+																	for item in hrc:
+																		hrcsd.append(item)
+																	break
+			hrc=sel_for_rc()
+	
+	if shalf ==2:
+		rc= "자동 표기 권장"
+
 	if test =="test":
 		test_rc=set(after_list) & set(rc)
 		if len(test_rc) > 2:
 			rated=len(test_rc)*0.25
 			rate_per=rate_per+rated
-		print(rc, test_rc, len(test_rc), )
+		print(num_num, rc, test_rc, len(test_rc), )
+
+			
+
 	if test != "test":
-		print(rc)
+		print(num_num ,rc)
+
+		
 
 # 테스트 출력
 
 os.system('cat /dev/null > /tmp/randlot_chklist')
-
 
 if test =="test":
 	check_top_nums=set(after_list) & set(favorit_list)
@@ -736,6 +1015,11 @@ if test =="test":
 	check_top_nums=set(after_list) & set(matchs_favorit_list)
 	per_fav=len(check_top_nums)/23 *100
 	print("\n매치 포인트 적중 확률 :",per_fav,"%")
+	print(check_top_nums)
+
+	check_top_nums=set(after_list) & set(favorit_all)
+	per_fav=len(check_top_nums)/23 *100
+	print("\n전체 favorit 넘버 중복의 적중 확률 :",per_fav,"%")
 	print(check_top_nums)
 
 
@@ -782,15 +1066,29 @@ if test =="test":
 	print("전체 출력된 추천 리스트", len(rcns),"개 중... 3개 적중 :",a3," 4개 적중 :",a4,"  5개 적중 :",a5," 6개 적중 :",a6)
 
 
-
-
 etime=time.time()
 proc_time=etime-stime
 
+if half == 1:
+	rcsd=[]
+	rcsd=hrcsd
+	rcsd=list(rcsd)
+
+
+if half == 2:
+	rcsd=rcsd+hrcsd
+	rcsd=list(rcsd)
+	
+	
 not_lists= set(olist) - set(rcsd)
 
+if len(not_lists) == 0:
+	not_lists_answer="모든 번호가 출현 하였습니다."
 
-print("비출현 번호 : ", list(not_lists))
+else:
+	not_lists_answer=list(not_lists)
+
+
+print("비출현 번호 : ", not_lists_answer )
 
 print("\n연산에 걸린 총 시간은", int(proc_time) , "초 입니다.")
-
