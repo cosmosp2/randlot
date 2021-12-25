@@ -830,7 +830,13 @@ for item in b_hrc:
 	hists_hrc.append(item)
  
 
+if half == 0:
+	half=0
 
+if half == 1:
+	half =1
+
+	
 	
 	
 

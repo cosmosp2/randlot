@@ -203,18 +203,24 @@ if [[ ! -r $1 ]]; then
 	camel=0
 
 
-	read -p "반자동 (0값 포함) 을 적용 하시겠습니까? [y/*] : " dohalf
+	read -p "반자동 포함을 어떻게 적용 하시겠습니까? 
+0:반자동 출력 안함
+1:반자동만 출력
+2:수동 and 반자동 같이 출력
+3: 자동 and 수동 and 반자동 같이 랜덤으로 출력
+[0/1/2/3] : " dohalf
 
-	if [[ $dohalf == "y" ]]; then
-		half="1"
-		echo "반자동을 적용 합니다."
-
-	fi
-
-	if [[ ! $dohalf == "y" ]]; then
-		half=0
-		echo "반자동을 적용 하지 않습니다."
-	fi
+	case "$dohalf" in
+		0) half=0
+		;;
+		1) half=1
+		;;
+		2) half=2
+		;;
+		3) half=3
+		;;
+	esac
+	
 
 	test="notest"
 
