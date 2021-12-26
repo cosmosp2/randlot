@@ -633,6 +633,7 @@ lasts=[]
 three=[]
 rcns=[]
 not_list=list(range(1,46))
+hnot_list=list(range(1,46))
 
 
 # 중복 번호 찾아내기  (match point)
@@ -831,10 +832,10 @@ for item in b_hrc:
  
 
 if half == 0:
-	half=0
+	shalf=0
 
 if half == 1:
-	half =1
+	shalf =1
 
 	
 	
@@ -924,13 +925,13 @@ for i in range(amount):
 		if rc in not_list:
 			not_list.remove(i)
 		
+		hnot_list=list(set(hnot_list+not_list))
+		
 
 	if shalf == 1:
 		
 		hrc=sel_for_rc()
-		hnot_list=list(set(olist)-set(hrcsd))
-		if len(hnot_list) < 1:
-			hnot_list=olist
+		
 		
 		if len(hists_hrc) > 23:
 			hists_hrc=sel_for_rc()
@@ -982,6 +983,9 @@ for i in range(amount):
 																			hists.append(item)
 																	for item in hrc:
 																		hrcsd.append(item)
+																	hnot_list=list(set(olist)-set(hrcsd))
+																	not_list=list(set(not_list+hnot_list))
+																	
 																	break
 			hrc=sel_for_rc()
 	
@@ -995,12 +999,10 @@ for i in range(amount):
 			rate_per=rate_per+rated
 		print(num_num, rc, test_rc, len(test_rc), )
 
-			
 
 	if test != "test":
 		print(num_num ,rc)
 
-		
 
 # 테스트 출력
 
