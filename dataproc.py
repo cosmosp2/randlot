@@ -847,9 +847,17 @@ for i in range(amount):
 
 	if half == 3:
 		sel_shalf=[0,1,1,2,2]
+		shuffle(sel_shalf)
 		shalf=random.choice(sel_shalf)
 	if half == 2:
 		sel_shalf=[0,1,1]
+		shuffle(sel_shalf)
+
+		shalf=random.choice(sel_shalf)
+	if half == 4:
+		sel_shalf=[1,1,2]
+		shuffle(sel_shalf)
+
 		shalf=random.choice(sel_shalf)
 	if shalf == 0:
 		
@@ -1077,7 +1085,7 @@ if test =="test":
 etime=time.time()
 proc_time=etime-stime
 
-if half == 1:
+if half == 1 or half ==4:
 	rcsd=[]
 	rcsd=hrcsd
 	rcsd=list(rcsd)
