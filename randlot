@@ -48,7 +48,7 @@ if [[ -s /tmp/randlot_averas ]]; then
 	cat /dev/null > /tmp/randlot_averas
 fi
 
-Version=0.1-4
+Version=0.1-5
 
 if [[ $1 = "--help" ]] || [[ $1 = "-h" ]]; then
 	echo "randlot $Version
@@ -306,7 +306,7 @@ for (( i = 1; i < 46; i++ )); do
 	
 done
 
-python3 dataproc.py $nnum $bnum $amount $avera $half $time $camel $test
+pypy3 dataproc.py $nnum $bnum $amount $avera $half $time $camel $test
 
 
 

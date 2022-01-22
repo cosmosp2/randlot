@@ -28,11 +28,11 @@ import random
 import sys
 import os
 import operator
+from random import Random, randint, shuffle
 from openpyxl import load_workbook
 import collections
 import warnings
 from datetime import datetime
-from random import shuffle
 
 
 nnum=int(sys.argv[1])
@@ -413,47 +413,6 @@ for i in range(23):
 
 # 본격 사전 조합 생성 함수 
 
-# 평준화 작업
-
-def re_bet_com(bet):
-	cnts=[]
-	re_bet=[]
-	for i in range(45):
-		ia=i+1
-		cnt=bet.count(ia)
-		cnts.append(cnt)
-	average_cnt=int(sum(cnts)/len(cnts))
-	for i in range(45):
-		ia=i+1
-		re_cnt=int((bet.count(ia)/2)+average_cnt)
-		for ia2 in range(re_cnt):
-			re_bet.append(ia)
-	
-	shuffle(re_bet)
-	return re_bet
-
-one=re_bet_com(one)
-two=re_bet_com(two)
-three=re_bet_com(three)
-four=re_bet_com(four)
-five=re_bet_com(five)
-six=re_bet_com(six)
-
-
-
-
-
-
-
-		
-
-
-
-
-
-
-	
-
 
 def make_num(n):
 	if n == 0:
@@ -519,7 +478,6 @@ def proc_make(numproc):
 	for i in range(proc_avera):
 		mlist=make_mlist()
 		mlist.sort()
-		
 		mlists.append(mlist)
 	return mlists
 
@@ -531,10 +489,11 @@ rcs=[]
 for item in range(len(rcs_computes)):
 	rcs=rcs+rcs_computes[item]
 
-rcs=list(set([tuple(set(item)) for item in rcs]))
+
 
 
 print("다중연산이 끝나고 정리를 시작합니다...\n실제 계산된 연산수:",len(rcs))
+
 
 
 
@@ -662,6 +621,7 @@ top_sort_of_coumputed_list=[]
 for i in range(7):
 	li=sort_of_coumputed_list[i]
 	top_sort_of_coumputed_list.append(li)
+
 
 
 rate_per=0
@@ -799,12 +759,13 @@ print("favorit 리스트",favorit_all)
 print("not favorit 리스트",not_favorit_list)
 print("half 리스트",half_favorit_list)
 
+for item in range(2):
+	shuffle(rcs)
 
 fnum=[]
 lnum=[]
 hists=[]
 for item in range(3):
-	
 	
 	while True:
 		if len(fnum) > 3:
@@ -815,7 +776,9 @@ for item in range(3):
 		if len(hists) > 22:
 			hists.clear()
 		
+
 		brc=list(random.choice(rcs))
+		rcs.remove(brc)
 
 		check=0
 		for i in range(6):
@@ -837,7 +800,6 @@ for item in range(3):
 													lnum.append(brc[5])
 													hists=hists+brc
 													hists=list(set(hists))
-													rcs.remove(tuple(brc))
 													break
 
 print("\n추천 번호 출력\n")
@@ -845,9 +807,7 @@ print("\n추천 번호 출력\n")
 hrcsd=[]
 
 def sel_for_rc():
-	global brc
-	selr=list(random.choice(rcs))
-	brc=selr
+	selr=random.choice(rcs)
 	sel_type=random.randint(2,3)
 	for item in range(sel_type):
 		shuffle(selr)
@@ -866,7 +826,6 @@ b_hrc=sel_for_rc()
 hists_hrc=[]
 b_hrc=list(set(b_hrc))
 b_hrc.remove(0)
-
 for item in b_hrc:
 	hists_hrc.append(item)
  
@@ -878,10 +837,12 @@ if half == 1:
 	shalf =1
 
 	
+	
+	
 
 for i in range(amount):
+
 	num_num=i+1
-	trying=0
 
 	if half == 3:
 		sel_shalf=[0,1,1,2,2]
@@ -905,14 +866,15 @@ for i in range(amount):
 			not_list=list(range(1,46))
 		selnice=random.randint(0,5)
 		chk_dnots_rcs=0
-		sel_rc=list(random.choice(rcs))
+		sel_rc=random.choice(rcs)
+		rcs.remove(sel_rc)
 		if len(fnum) > 5:
 			fnum.clear()
 		if len(lnum) > 5:
 			lnum.clear()
+
 		while True:
 			check=0
-			trying=trying+1
 			for i in range(6):
 				ia=sel_rc[i]
 				if ia in sectors[i]:
@@ -933,14 +895,10 @@ for i in range(amount):
 															if sel_rc[0] not in fnum:
 																if sel_rc[5] not in lnum:
 																		rc=sel_rc
-																		rcs.remove(tuple(rc))
 																		break
-																if trying > 101:
-																	rcs.remove(tuple(rc))
+			sel_rc=random.choice(rcs)
 
-																	break
-																	
-			sel_rc=list(random.choice(rcs))
+			
 		for i in range(6):
 			rcsd.append(rc[i])
 			oldlist.append(rc[i])
@@ -961,6 +919,8 @@ for i in range(amount):
 		hists=list(set(hists))
 		hists_hrc=hists_hrc+hists
 		hists_hrc=list(set(hists_hrc))
+
+		
 
 		fnum.append(rc[0])
 		lnum.append(rc[5])
@@ -995,9 +955,9 @@ for i in range(amount):
 		b_hrc_fnum.sort()
 		b_hrc_fnum=b_hrc_fnum[0]
 
+		 
 
 		while True:
-		
 			if len(hrc) == 6:
 				if 0 < len(set(hrc) & set(all_favorit_list)):
 					if 0 < len(set(hrc) & set(favorit_list)):
@@ -1018,6 +978,7 @@ for i in range(amount):
 																fnum_chk_hrc=fnum_chk_hrc[0]
 																if fnum_chk_hrc != b_hrc_fnum:
 
+																	 
 
 																	rc=hrc
 																	rc.sort()
@@ -1045,9 +1006,6 @@ for i in range(amount):
 																		hnot_list=list(set(olist)-set(hrcsd))
 																		not_list=list(set(not_list+hnot_list))
 																		break
-																
-																		
-
 			hrc=sel_for_rc()
 	
 	if shalf ==2:
